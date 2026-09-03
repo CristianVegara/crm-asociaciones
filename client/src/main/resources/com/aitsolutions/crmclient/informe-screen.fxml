@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.informe.InformeScreenController">
+    <top>
+        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
+            <Label text="Informes" styleClass="screen-title"/>
+            <DatePicker fx:id="fechaDesde" promptText="Desde"/>
+            <DatePicker fx:id="fechaHasta" promptText="Hasta"/>
+            <ComboBox fx:id="comboTipoInforme" promptText="Tipo de informe"/>
+            <ComboBox fx:id="comboPeriodo" promptText="Periodo (opcional, solo etiqueta)"/>
+            <Button text="Generar" onAction="#onGenerarClick" styleClass="button-primary"/>
+            <Button fx:id="botonExportarPdf" text="Exportar PDF" onAction="#onExportarPdfClick"
+                    disable="true" styleClass="button-primary"/>
+            <Button fx:id="botonPrevisualizarPdf" text="Previsualizar PDF" onAction="#onPrevisualizarPdfClick"
+                    disable="true"/>
+            <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane hgap="16.0" vgap="16.0" styleClass="content-area">
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <Label text="Pacientes" styleClass="card-title"/>
+                <Label fx:id="labelPacientesActivos" text="Activos: —"/>
+                <Label fx:id="labelPacientesNuevos" text="Nuevos en el periodo: —"/>
+            </VBox>
+
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <Label text="Sesiones" styleClass="card-title"/>
+                <Label fx:id="labelSesionesTotal" text="Total: —"/>
+                <Label fx:id="labelSesionesVerde" text="Verde: —"/>
+                <Label fx:id="labelSesionesNaranja" text="Naranja: —"/>
+                <Label fx:id="labelSesionesRojo" text="Rojo: —"/>
+                <Label fx:id="labelSesionesAmarillo" text="Amarillo (baja médica): —"/>
+                <Label fx:id="labelSesionesPendiente" text="Pendiente: —"/>
+                <Label fx:id="labelPorcentajeAsistencia" text="Asistencia: —" style="-fx-font-weight: bold;"/>
+                <Label fx:id="labelCancelaciones" text="Cancelaciones: —"/>
+            </VBox>
+
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <Label text="Sanciones" styleClass="card-title"/>
+                <Label fx:id="labelSancionesAutomaticas" text="Automáticas: —"/>
+                <Label fx:id="labelSancionesManuales" text="Manuales: —"/>
+                <Label fx:id="labelSancionesTotal" text="Total: —"/>
+            </VBox>
+
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <Label text="Planes de servicio" styleClass="card-title"/>
+                <Label fx:id="labelPlanesCreados" text="Creados en el periodo: —"/>
+                <Label fx:id="labelPlanesFinalizados" text="Finalizados en el periodo: —"/>
+            </VBox>
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                  GridPane.columnSpan="2">
+                <Label text="Servicios" styleClass="card-title"/>
+                <Label fx:id="labelServiciosResumen" text="Total servicios: —" wrapText="true"/>
+                <Label fx:id="labelServiciosPorSexo" text="Por sexo: —" wrapText="true"/>
+                <Label fx:id="labelServiciosPorAsociacion" text="Por asociación: —" wrapText="true"/>
+            </VBox>
+            <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                  GridPane.columnSpan="2">
+                <Label text="Historial de informes" styleClass="card-title"/>
+                <TableView fx:id="tablaHistorial" prefHeight="180.0">
+                    <columns>
+                        <TableColumn fx:id="columnaFecha" text="Generado" prefWidth="150.0"/>
+                        <TableColumn fx:id="columnaDesde" text="Desde" prefWidth="100.0"/>
+                        <TableColumn fx:id="columnaHasta" text="Hasta" prefWidth="100.0"/>
+                        <TableColumn fx:id="columnaPeriodo" text="Periodo" prefWidth="100.0"/>
+                        <TableColumn fx:id="columnaUsuario" text="Usuario" prefWidth="180.0"/>
+                    </columns>
+                </TableView>
+                <Button text="Regenerar seleccionado" onAction="#onRegenerarClick"/>
+            </VBox>
+        </GridPane>
+    </center>
+</BorderPane>

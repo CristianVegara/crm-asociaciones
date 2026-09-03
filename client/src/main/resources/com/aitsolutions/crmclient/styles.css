@@ -1,0 +1,176 @@
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f4f6f8;
+}
+
+/* ---------- Barra de navegación persistente ---------- */
+
+.nav-bar {
+    -fx-background-color: #1f3d3d;
+    -fx-padding: 10 18 10 18;
+}
+
+.nav-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cfe3e3;
+    -fx-font-size: 13px;
+    -fx-padding: 8 14 8 14;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #2c5555;
+    -fx-text-fill: white;
+}
+
+.nav-button-active {
+    -fx-background-color: #2f8f8f;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.nav-session-label {
+    -fx-text-fill: #cfe3e3;
+    -fx-font-size: 12px;
+}
+
+.nav-button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e8a4a4;
+    -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
+}
+
+.nav-button-secondary:hover {
+    -fx-text-fill: #ff6b6b;
+}
+
+/* ---------- Cabeceras de pantalla ---------- */
+
+.screen-header {
+    -fx-background-color: white;
+    -fx-padding: 14 18 14 18;
+    -fx-border-color: transparent transparent #e0e4e7 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.screen-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f3d3d;
+}
+
+.status-label {
+    -fx-text-fill: #6b7680;
+    -fx-font-size: 12px;
+}
+
+/* ---------- Paneles tipo tarjeta (formularios) ---------- */
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-border-color: #e0e4e7;
+    -fx-border-radius: 6;
+    -fx-padding: 16;
+}
+
+.card-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f3d3d;
+    -fx-padding: 0 0 6 0;
+}
+
+.content-area {
+    -fx-background-color: #f4f6f8;
+    -fx-padding: 16;
+}
+
+/* ---------- Tablas ---------- */
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e4e7;
+    /* JavaFX usa esta variable para el color del texto en filas/celdas seleccionadas;
+       si no se pisa aquí, el texto sale blanco pese a poner -fx-text-fill más abajo. */
+    -fx-selection-bar-text: #1f3d3d;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #eef2f2;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #1f3d3d;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-cell-size: 32px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafbfc;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #d4ebeb;
+    -fx-text-fill: #1f3d3d;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: #1f3d3d;
+}
+
+/* ---------- Botones de acción ---------- */
+
+.button {
+    -fx-cursor: hand;
+}
+
+.button-primary {
+    -fx-background-color: #2f8f8f;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 4;
+}
+
+.button-primary:hover {
+    -fx-background-color: #256f6f;
+}
+
+.button-danger-outline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c0392b;
+    -fx-border-color: #c0392b;
+    -fx-border-radius: 4;
+    -fx-padding: 7 14 7 14;
+}
+
+.button-danger-outline:hover {
+    -fx-background-color: #fdecea;
+}
+
+/* ---------- Formularios de login ---------- */
+
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #e0e4e7;
+    -fx-border-radius: 8;
+    -fx-padding: 30;
+}
+
+.error-label {
+    -fx-text-fill: #c0392b;
+}

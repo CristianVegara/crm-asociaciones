@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <padding>
+        <Insets top="60.0"/>
+    </padding>
+    <Label text="No tienes ningún módulo asignado" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <Label text="Contacta con el director de la asociación para que revise tu rol." styleClass="status-label"/>
+</VBox>

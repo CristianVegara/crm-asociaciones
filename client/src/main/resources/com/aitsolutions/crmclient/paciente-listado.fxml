@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.paciente.PacienteListadoController">
+    <top>
+        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
+            <Label text="Pacientes" styleClass="screen-title"/>
+            <TextField fx:id="campoBusqueda" promptText="Buscar por nombre..." HBox.hgrow="ALWAYS"/>
+            <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaPacientes">
+            <columns>
+                <TableColumn fx:id="columnaNombre" text="Nombre" prefWidth="140.0"/>
+                <TableColumn fx:id="columnaApellidos" text="Apellidos" prefWidth="160.0"/>
+                <TableColumn fx:id="columnaExpediente" text="Nº expediente" prefWidth="120.0"/>
+                <TableColumn fx:id="columnaAsociacion" text="Asociación" prefWidth="160.0"/>
+                <TableColumn fx:id="columnaActivo" text="Activo" prefWidth="70.0"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="8.0" right="15.0" bottom="10.0" left="15.0"/>
+            </padding>
+            <Label fx:id="etiquetaEstado" styleClass="status-label"/>
+        </HBox>
+    </bottom>
+</BorderPane>

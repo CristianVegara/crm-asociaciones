@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.gestion.GestionTrabajadoresController">
+    <top>
+        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
+            <Label text="Trabajadores y roles" styleClass="screen-title"/>
+            <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Trabajadores">
+                <VBox spacing="14.0" styleClass="content-area">
+                    <TableView fx:id="tablaTrabajadores" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="columnaTrabNombre" text="Nombre" prefWidth="120.0"/>
+                            <TableColumn fx:id="columnaTrabApellidos" text="Apellidos" prefWidth="140.0"/>
+                            <TableColumn fx:id="columnaTrabUsuario" text="Usuario" prefWidth="100.0"/>
+                            <TableColumn fx:id="columnaTrabRol" text="Rol" prefWidth="120.0"/>
+                            <TableColumn fx:id="columnaTrabActivo" text="Activo" prefWidth="60.0"/>
+                        </columns>
+                    </TableView>
+
+                    <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <Button text="Activar / desactivar seleccionado" onAction="#onCambiarEstadoTrabajadorClick"/>
+                        <Label text="No se borran trabajadores para no perder el historial de quién hizo qué; se dan de baja." styleClass="status-label"/>
+                    </HBox>
+
+                    <VBox spacing="10.0" styleClass="card">
+                        <Label text="Nuevo trabajador" styleClass="card-title"/>
+                        <HBox spacing="8.0" alignment="CENTER_LEFT">
+                            <TextField fx:id="campoTrabNombre" promptText="Nombre"/>
+                            <TextField fx:id="campoTrabApellidos" promptText="Apellidos"/>
+                            <TextField fx:id="campoTrabUsuario" promptText="Usuario"/>
+                            <PasswordField fx:id="campoTrabPassword" promptText="Contraseña inicial"/>
+                            <ComboBox fx:id="comboTrabRol" promptText="Rol"/>
+                            <Button text="Crear" onAction="#onCrearTrabajadorClick" styleClass="button-primary"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+            <Tab text="Roles">
+                <HBox spacing="16.0" styleClass="content-area">
+                    <VBox spacing="14.0" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="tablaRoles" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="columnaRolNombre" text="Nombre" prefWidth="140.0"/>
+                                <TableColumn fx:id="columnaRolDescripcion" text="Descripción" prefWidth="220.0"/>
+                            </columns>
+                        </TableView>
+                        <VBox spacing="10.0" styleClass="card">
+                            <Label text="Nuevo rol" styleClass="card-title"/>
+                            <HBox spacing="8.0">
+                                <TextField fx:id="campoRolNombre" promptText="Nombre"/>
+                                <TextField fx:id="campoRolDescripcion" promptText="Descripción" HBox.hgrow="ALWAYS"/>
+                                <Button text="Crear" onAction="#onCrearRolClick" styleClass="button-primary"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox spacing="10.0" prefWidth="280.0" styleClass="card">
+                        <Label text="Permisos del rol seleccionado" styleClass="card-title"/>
+                        <VBox fx:id="cajaPermisos" spacing="10.0"/>
+                        <Button text="Guardar permisos" onAction="#onGuardarPermisosClick" styleClass="button-primary"/>
+                    </VBox>
+                </HBox>
+            </Tab>
+
+            <Tab text="Servicios">
+                <VBox spacing="14.0" styleClass="content-area">
+                    <HBox spacing="8.0" alignment="CENTER_LEFT">
+                        <ComboBox fx:id="comboTipoServicio" promptText="Selecciona un tipo de servicio" onAction="#onSeleccionarTipoServicio"/>
+                        <TextField fx:id="campoNuevoTipoServicio" promptText="Nombre del nuevo tipo de servicio"/>
+                        <Button text="Crear" onAction="#onCrearTipoServicioClick" styleClass="button-primary"/>
+                    </HBox>
+
+                    <VBox spacing="12.0" styleClass="card" VBox.vgrow="ALWAYS">
+                        <Label text="Qué puede hacer cada rol en este servicio" styleClass="card-title"/>
+                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+                            <GridPane fx:id="grillaResponsables" hgap="20.0" vgap="12.0"/>
+                        </ScrollPane>
+                        <Button text="Guardar responsables" onAction="#onGuardarResponsablesClick" styleClass="button-primary"/>
+                    </VBox>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>

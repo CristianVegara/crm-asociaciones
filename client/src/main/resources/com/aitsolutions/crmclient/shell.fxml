@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.shell.ShellController">
+    <top>
+        <HBox styleClass="nav-bar" spacing="4.0" alignment="CENTER_LEFT">
+            <Label text="CRM Asociaciones" styleClass="nav-title">
+                <HBox.margin>
+                    <Insets right="24.0"/>
+                </HBox.margin>
+            </Label>
+
+            <Button fx:id="botonPacientes" text="Pacientes" styleClass="nav-button" onAction="#onPacientesClick"/>
+            <Button fx:id="botonSanciones" text="Sanciones" styleClass="nav-button" onAction="#onSancionesClick"/>
+            <Button fx:id="botonTrabajadores" text="Trabajadores y roles" styleClass="nav-button" onAction="#onTrabajadoresClick"/>
+            <Button fx:id="botonInformes" text="Informes" styleClass="nav-button" onAction="#onInformesClick"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label fx:id="etiquetaSesion" styleClass="nav-session-label"/>
+            <Button text="Cerrar sesión" styleClass="nav-button-secondary" onAction="#onCerrarSesionClick"/>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane fx:id="contenedorContenido" styleClass="content-area"/>
+    </center>
+</BorderPane>

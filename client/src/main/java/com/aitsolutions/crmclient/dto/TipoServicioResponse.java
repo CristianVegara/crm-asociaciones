@@ -12,6 +12,7 @@ public class TipoServicioResponse {
     private String nombre;
     private boolean activo;
     private List<ResponsableResponse> responsables = new ArrayList<>();
+    private List<SubServicioResponse> subServicios = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -43,6 +44,14 @@ public class TipoServicioResponse {
 
     public void setResponsables(List<ResponsableResponse> responsables) {
         this.responsables = responsables;
+    }
+
+    public List<SubServicioResponse> getSubServicios() {
+        return subServicios;
+    }
+
+    public void setSubServicios(List<SubServicioResponse> subServicios) {
+        this.subServicios = subServicios;
     }
 
     @Override

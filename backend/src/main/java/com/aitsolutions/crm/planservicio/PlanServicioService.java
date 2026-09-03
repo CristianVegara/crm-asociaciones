@@ -82,6 +82,9 @@ public class PlanServicioService {
     @Transactional
     public PlanServicio actualizar(Long id, PlanServicioEdicionRequest request) {
         PlanServicio plan = buscarPorId(id);
+        if (plan.getEstado() == EstadoPlanServicio.CANCELADO) {
+            throw new IllegalArgumentException("No se puede editar un plan cancelado");
+        }
         autorizacionServicioService.verificarCapacidad(plan.getTipoServicio(), CapacidadServicio.GESTIONAR_PLAN);
 
         LocalDate nuevaFechaFin = resolverFechaFinOpcional(plan.getFechaInicio(),
@@ -102,8 +105,11 @@ public class PlanServicioService {
         PlanServicio plan = buscarPorId(id);
         autorizacionServicioService.verificarCapacidad(plan.getTipoServicio(), CapacidadServicio.GESTIONAR_PLAN);
 
+        if (plan.getEstado() == EstadoPlanServicio.CANCELADO && nuevoEstado != EstadoPlanServicio.CANCELADO) {
+            throw new IllegalArgumentException("Un plan cancelado no puede reactivarse");
+        }
         plan.setEstado(nuevoEstado);
-        if (nuevoEstado == EstadoPlanServicio.FINALIZADO) {
+        if (nuevoEstado == EstadoPlanServicio.FINALIZADO || nuevoEstado == EstadoPlanServicio.CANCELADO) {
             plan.setFechaFinalizacion(java.time.LocalDateTime.now());
         }
         plan = planServicioRepository.save(plan);

@@ -5,6 +5,11 @@
 > **Revisión 2**: corrige el modelo de dominio inicial. Lo que en el prototipo se llamaba "Usuario" son en realidad **trabajadores de la asociación** (admin/director, coordinador, recepción, rehabilitador...). Los verdaderos beneficiarios del servicio son **pacientes**, que siguen **planes de servicio** (ej. "rehabilitación 2 veces por semana durante 3 meses") con un calendario de sesiones que el personal va marcando como asistidas o no.
 >
 > **Revisión 3 (03/09/2026)**: se implementa el módulo de informes con datos reales, histórico persistente, regeneración, previsualización y exportación a PDF con plantilla HTML/CSS. También se documentan correcciones de navegación JavaFX, inicialización idempotente y compatibilidad de ejecución con JDK 26.
+>
+> **Revisión 4 (04/09/2026)**: se implementa la ficha de paciente del paso 11 en JavaFX,
+> con consulta y gestión de planes, sesiones y sanciones mediante los endpoints REST existentes.
+> `GET /pacientes/{id}` devuelve además una colección de sesiones agregada (y las sesiones
+> siguen anidadas en cada plan para conservar su contexto).
 
 ## 1. Qué era el prototipo original
 
@@ -75,7 +80,7 @@ Navegación por **módulos independientes** accesibles en cualquier orden desde 
 **PlanServicio** *(el elemento que faltaba en la v1 — ej. "Ana Valero, rehabilitación, 2 veces por semana, 3 meses")*
 - id, `paciente_id`, `tipo_servicio_id`, `sub_servicio_id` (opcional)
 - frecuencia (días de la semana), fecha inicio, fecha fin / duración
-- estado (activo/finalizado), `creado_por` (trabajador_id — cualquier rol con permiso `CREAR_PLAN_SERVICIO`)
+- estado (activo/finalizado/cancelado), `creado_por` (trabajador_id — cualquier rol con permiso `CREAR_PLAN_SERVICIO`)
 - **Al crearse, el backend genera automáticamente el calendario de `SesionProgramada`** según la frecuencia y duración indicadas.
 
 **SesionProgramada** *(cada visita concreta esperada)*
@@ -139,11 +144,13 @@ Asociación 1→N Paciente · Rol 1→N Trabajador · Rol N↔N Permiso (vía Ro
 **Planes de servicio**
 - `GET /planes-servicio?pacienteId=&tipoServicioId=&estado=`
 - `POST /planes-servicio` (genera automáticamente las `SesionProgramada`)
-- `PUT /planes-servicio/{id}` (ej. finalizar plan)
+- `PUT /planes-servicio/{id}` (edita días/duración y regenera pendientes futuras)
+- `PATCH /planes-servicio/{id}/estado` (cancela/finaliza conservando historial)
 
 **Sesiones programadas**
 - `GET /sesiones?planServicioId=&desde=&hasta=&estado=` — vista de agenda para recepción
 - `PATCH /sesiones/{id}` — marcar estado (VERDE/NARANJA/ROJO/AMARILLO/CANCELADA)
+- `DELETE /sesiones/{id}` — borrar una sesión puntual únicamente si sigue PENDIENTE
 
 **Sanciones**
 - `GET /sanciones?pacienteId=` · `POST /sanciones`
@@ -216,14 +223,16 @@ Al dar de alta a un paciente, los servicios (`PlanServicio`) **no son obligatori
 
 - Se define el/los días de la semana y la duración (frecuencia + periodo), como ya recoge `PlanServicio`.
 - El plan debe ser **editable después de creado**: cambiar días, ampliar/acortar el periodo.
-- Debe poderse **eliminar una sesión suelta** (`SesionProgramada` puntual) sin afectar al resto del plan, o **eliminar el plan completo** (todas las sesiones futuras, o todas incluyendo el histórico — a definir).
+- Debe poderse **eliminar una sesión suelta** (`SesionProgramada` puntual) sin afectar al resto del plan, o **cancelar el plan completo** mediante baja lógica, conservando sesiones e histórico.
 
 Esto implica en el backend, además de `POST /planes-servicio`:
 - `PUT /planes-servicio/{id}` para editar días/duración (regenerando las `SesionProgramada` futuras afectadas)
 - `DELETE /sesiones/{id}` para borrar una sesión puntual
-- `DELETE /planes-servicio/{id}` (o `PATCH .../estado` si se prefiere baja lógica) para borrar/cancelar el plan completo
+- `PATCH /planes-servicio/{id}/estado` con `CANCELADO` para cancelar el plan completo
 
 El propio Cristian señala que el detalle fino de este comportamiento (cómo se regeneran sesiones al editar, si el borrado es lógico o físico, etc.) se irá afinando con las versiones — no se cierra aquí, solo se deja constancia de la necesidad.
+
+Decisión aplicada: un plan cancelado conserva sesiones e histórico, y no puede editarse ni reactivarse.
 
 ## 12. Pendiente de decidir más adelante
 

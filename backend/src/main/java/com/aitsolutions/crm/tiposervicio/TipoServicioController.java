@@ -25,6 +25,7 @@ public class TipoServicioController {
     }
 
     @GetMapping("/tipos-servicio")
+    @PreAuthorize("hasAnyAuthority('GESTIONAR_CATALOGO_SERVICIOS', 'CREAR_PLAN_SERVICIO')")
     public List<TipoServicioResponse> listar() {
         return tipoServicioService.listarTodos().stream()
                 .map(tipo -> new TipoServicioResponse(tipo, tipoServicioService.obtenerResponsables(tipo)))

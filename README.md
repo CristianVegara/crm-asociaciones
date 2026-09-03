@@ -25,6 +25,7 @@ crm-asociaciones/
 - [x] 8. Módulo de informes con cálculos reales
 - [x] 9. Empaquetado con `jpackage` + instalación piloto (DMG macOS Apple Silicon preparado)
 - [ ] 10. Rollout al resto de puestos
+- [x] 11. Ficha de paciente: planes, sesiones, asistencia y edición del calendario
 
 ### Empaquetado macOS Apple Silicon
 
@@ -90,7 +91,8 @@ curl http://localhost:8080/pacientes \
 |---|---|
 | `/trabajadores`, `/roles` | `GESTIONAR_TRABAJADORES` |
 | `/pacientes`, `/asociaciones` | `GESTIONAR_PACIENTES` |
-| `/tipos-servicio`, `/subservicios` | `GESTIONAR_CATALOGO_SERVICIOS` |
+| `/tipos-servicio` (consulta para planes) | `GESTIONAR_CATALOGO_SERVICIOS` o `CREAR_PLAN_SERVICIO` |
+| `/subservicios` y cambios de catálogo | `GESTIONAR_CATALOGO_SERVICIOS` |
 | `/planes-servicio`, `DELETE /sesiones/{id}` | `CREAR_PLAN_SERVICIO` |
 | `GET /sesiones`, `PATCH /sesiones/{id}` | `REGISTRAR_ASISTENCIA` |
 | `/sanciones` | `APLICAR_SANCION` |
@@ -120,6 +122,12 @@ backend esté en el servidor de la oficina y no en tu propio Mac) crea un archiv
 ```properties
 api.base-url=http://IP-DEL-SERVIDOR:8080
 ```
+
+Desde el listado de pacientes se puede abrir la ficha para consultar sus datos, planes,
+sesiones y sanciones. La ficha permite crear y editar planes (días y duración), cancelar
+un plan con baja lógica (`PATCH /planes-servicio/{id}/estado` y estado `CANCELADO`),
+eliminar sesiones todavía pendientes y marcar su asistencia. La cancelación conserva
+las sesiones y el histórico.
 
 ## Decisiones fijadas — Informes (paso 8)
 

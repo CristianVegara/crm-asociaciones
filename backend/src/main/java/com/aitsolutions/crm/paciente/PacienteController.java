@@ -1,7 +1,12 @@
 package com.aitsolutions.crm.paciente;
 
 import com.aitsolutions.crm.common.CambiarEstadoRequest;
+import com.aitsolutions.crm.planservicio.PlanServicioResponse;
+import com.aitsolutions.crm.planservicio.PlanServicioService;
+import com.aitsolutions.crm.sancion.SancionResponse;
+import com.aitsolutions.crm.sancion.SancionService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,9 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class PacienteController {
 
     private final PacienteService pacienteService;
+    private final PlanServicioService planServicioService;
+    private final SancionService sancionService;
 
-    public PacienteController(PacienteService pacienteService) {
+    @Autowired
+    public PacienteController(PacienteService pacienteService, PlanServicioService planServicioService,
+                              SancionService sancionService) {
         this.pacienteService = pacienteService;
+        this.planServicioService = planServicioService;
+        this.sancionService = sancionService;
     }
 
     // GET /pacientes?asociacionId=&nombre=&page= (apartado 6 del plan).
@@ -41,8 +52,16 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public PacienteResponse obtener(@PathVariable Long id) {
-        return new PacienteResponse(pacienteService.buscarPorId(id));
+    public PacienteDetalleResponse obtener(@PathVariable Long id) {
+        Paciente paciente = pacienteService.buscarPorId(id);
+        var planes = planServicioService.buscar(id, null, null).stream()
+                .map(plan -> new PlanServicioResponse(plan, planServicioService.obtenerSesiones(plan)))
+                .toList();
+        var sesiones = planes.stream().flatMap(plan -> plan.getSesiones().stream()).toList();
+        var sanciones = sancionService.listarPorPaciente(id).stream()
+                .map(SancionResponse::new)
+                .toList();
+        return new PacienteDetalleResponse(paciente, planes, sesiones, sanciones);
     }
 
     @PostMapping

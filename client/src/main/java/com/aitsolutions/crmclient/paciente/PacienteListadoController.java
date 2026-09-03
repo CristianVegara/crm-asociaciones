@@ -21,8 +21,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
+import javafx.stage.Window;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -63,8 +65,14 @@ public class PacienteListadoController {
     @FXML private ComboBox<AsociacionResponse> comboAsociacion;
 
     @FXML
+    private Button botonFicha;
+
+    @FXML
     private void initialize() {
         configurarColumnas();
+        botonFicha.setDisable(true);
+        tablaPacientes.getSelectionModel().selectedItemProperty()
+                .addListener((obs, anterior, nuevo) -> botonFicha.setDisable(nuevo == null));
         cargarPacientes(null);
     }
 
@@ -146,6 +154,18 @@ public class PacienteListadoController {
                 nacimiento.getValue() == null ? null : nacimiento.getValue().toString(), genero.getValue(),
                 dni.getText(), telefono.getText(), email.getText(), asociacion.getValue().getId()) : null);
         dialogo.showAndWait().ifPresent(this::registrarPaciente);
+    }
+
+    @FXML
+    private void onFichaClick() {
+        PacienteResponse paciente = tablaPacientes.getSelectionModel().getSelectedItem();
+        if (paciente == null) {
+            etiquetaEstado.setText("Selecciona un paciente");
+            return;
+        }
+        Window ventana = tablaPacientes.getScene() == null ? null : tablaPacientes.getScene().getWindow();
+        PacienteFichaDialog.mostrar(paciente.getId(),
+                paciente.getNombre() + " " + paciente.getApellidos(), ventana);
     }
 
     private void registrarPaciente(PacienteRequest request) {

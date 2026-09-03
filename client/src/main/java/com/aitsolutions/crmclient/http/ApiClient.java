@@ -72,6 +72,22 @@ public class ApiClient {
         }
     }
 
+    public void delete(String path) {
+        try {
+            HttpRequest.Builder builder = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + path))
+                    .DELETE()
+                    .timeout(Duration.ofSeconds(10));
+            aplicarAuthSiHaceFalta(builder, true);
+            HttpResponse<String> respuesta = httpClient.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+            if (respuesta.statusCode() < 200 || respuesta.statusCode() >= 300) {
+                throw new ApiException(extraerMensajeError(respuesta, respuesta.statusCode()), respuesta.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            throw errorDeConexion(e);
+        }
+    }
+
     public <T> T post(String path, Object body, Class<T> tipoRespuesta, boolean requiereAuth) {
         try {
             String json = objectMapper.writeValueAsString(body);

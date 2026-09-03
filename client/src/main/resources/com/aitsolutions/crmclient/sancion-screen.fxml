@@ -15,10 +15,9 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.aitsolutions.crmclient.sancion.SancionScreenController">
     <top>
-        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
+                <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
             <Label text="Sanciones" styleClass="screen-title"/>
-            <TextField fx:id="campoPacienteId" promptText="Id del paciente"/>
-            <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
+                    <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
             <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
@@ -42,6 +41,7 @@
             </padding>
             <Label text="Aplicar sanción manual" styleClass="card-title"/>
             <HBox spacing="8.0" alignment="CENTER_LEFT">
+                <ComboBox fx:id="comboPaciente" promptText="Paciente" prefWidth="240.0"/>
                 <ComboBox fx:id="comboTipoSancion" promptText="Tipo"/>
                 <TextField fx:id="campoPlanServicioId" promptText="Id de plan (opcional)"/>
                 <TextField fx:id="campoMotivo" promptText="Motivo" HBox.hgrow="ALWAYS"/>

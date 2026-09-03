@@ -45,6 +45,9 @@ public class PacienteService {
                 request.getGenero(),
                 asociacion
         );
+        paciente.setDni(request.getDni());
+        paciente.setTelefono(request.getTelefono());
+        paciente.setEmail(request.getEmail());
         return pacienteRepository.save(paciente);
     }
 
@@ -57,6 +60,9 @@ public class PacienteService {
         paciente.setNumeroExpediente(request.getNumeroExpediente());
         paciente.setFechaNacimiento(request.getFechaNacimiento());
         paciente.setGenero(request.getGenero());
+        paciente.setDni(request.getDni());
+        paciente.setTelefono(request.getTelefono());
+        paciente.setEmail(request.getEmail());
         paciente.setAsociacion(asociacion);
 
         return pacienteRepository.save(paciente);

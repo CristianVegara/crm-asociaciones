@@ -94,3 +94,14 @@ Los avisos de `restricted method` y `Unsafe` son advertencias de JavaFX/JDK y no
 - `client/src/main/resources/com/aitsolutions/crmclient/informe-screen.fxml`
 - `client/pom.xml`
 - `docs/crm-asociaciones-schema.sql`
+### Mejoras de pacientes y visualización
+
+- El formulario de Pacientes permite registrar nombre, apellidos, expediente, asociación,
+  fecha de nacimiento, género, DNI, teléfono y email opcional.
+- La entidad, DTOs y esquema SQL incorporan los nuevos datos de contacto (JPA actualiza
+  automáticamente la base de datos en desarrollo).
+- El listado de pacientes carga las asociaciones disponibles y muestra un formulario de alta.
+- La pantalla de Informes usa ahora un `ScrollPane` y columnas con ancho flexible para evitar
+  que los indicadores y el historial queden ocultos en ventanas pequeñas.
+- Sanciones permite seleccionar al paciente por nombre, apellidos y expediente mediante un
+  selector cargado desde el backend, eliminando la introducción manual del ID.

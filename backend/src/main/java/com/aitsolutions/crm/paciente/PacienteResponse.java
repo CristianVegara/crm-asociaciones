@@ -16,6 +16,9 @@ public class PacienteResponse {
     private final LocalDate fechaNacimiento;
     private final LocalDate fechaAlta;
     private final String genero;
+    private final String dni;
+    private final String telefono;
+    private final String email;
     private final boolean activo;
     private final Long asociacionId;
     private final String asociacionNombre;
@@ -28,6 +31,9 @@ public class PacienteResponse {
         this.fechaNacimiento = paciente.getFechaNacimiento();
         this.fechaAlta = paciente.getFechaAlta();
         this.genero = paciente.getGenero();
+        this.dni = paciente.getDni();
+        this.telefono = paciente.getTelefono();
+        this.email = paciente.getEmail();
         this.activo = paciente.isActivo();
         this.asociacionId = paciente.getAsociacion().getId();
         this.asociacionNombre = paciente.getAsociacion().getNombre();
@@ -60,6 +66,9 @@ public class PacienteResponse {
     public String getGenero() {
         return genero;
     }
+    public String getDni() { return dni; }
+    public String getTelefono() { return telefono; }
+    public String getEmail() { return email; }
 
     public boolean isActivo() {
         return activo;

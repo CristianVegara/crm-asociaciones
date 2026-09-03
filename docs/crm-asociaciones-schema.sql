@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS asociacion (
     CONSTRAINT pk_asociacion PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS rol (
     id BIGINT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
@@ -120,6 +121,9 @@ CREATE TABLE IF NOT EXISTS paciente (
     numero_expediente VARCHAR(255) NOT NULL,
     fecha_nacimiento DATE NULL,
     genero VARCHAR(255) NULL,
+    dni VARCHAR(20) NULL,
+    telefono VARCHAR(30) NULL,
+    email VARCHAR(255) NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     fecha_alta DATE NOT NULL,
     asociacion_id BIGINT NOT NULL,
@@ -131,6 +135,10 @@ CREATE TABLE IF NOT EXISTS paciente (
         ON UPDATE RESTRICT,
     INDEX idx_paciente_asociacion (asociacion_id)
 ) ENGINE=InnoDB;
+
+ALTER TABLE paciente ADD COLUMN IF NOT EXISTS dni VARCHAR(20) NULL,
+    ADD COLUMN IF NOT EXISTS telefono VARCHAR(30) NULL,
+    ADD COLUMN IF NOT EXISTS email VARCHAR(255) NULL;
 
 CREATE TABLE IF NOT EXISTS plan_servicio (
     id BIGINT NOT NULL AUTO_INCREMENT,

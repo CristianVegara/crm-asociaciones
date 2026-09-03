@@ -20,6 +20,10 @@ public class PacienteRequest {
 
     private String genero;
 
+    private String dni;
+    private String telefono;
+    private String email;
+
     @NotNull(message = "La asociacion es obligatoria")
     private Long asociacionId;
 
@@ -62,6 +66,13 @@ public class PacienteRequest {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public Long getAsociacionId() {
         return asociacionId;

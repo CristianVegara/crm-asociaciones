@@ -35,6 +35,15 @@ public class Paciente {
 
     private String genero;
 
+    @Column(name = "dni", unique = true)
+    private String dni;
+
+    @Column(name = "telefono")
+    private String telefono;
+
+    @Column(name = "email")
+    private String email;
+
     @Column(nullable = false)
     private boolean activo = true;
 
@@ -105,6 +114,13 @@ public class Paciente {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public boolean isActivo() {
         return activo;

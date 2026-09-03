@@ -60,7 +60,7 @@ Navegación por **módulos independientes** accesibles en cualquier orden desde 
 ### Beneficiarios y servicios
 
 **Paciente** *(el verdadero beneficiario — antes confundido con "Usuario" en el prototipo)*
-- id, nombre, apellidos, nº expediente, fecha nacimiento, género
+- id, nombre, apellidos, nº expediente, fecha nacimiento, género, DNI, teléfono y email opcional
 - `asociacion_id` (FK, 1 paciente → 1 asociación)
 
 **Asociación**

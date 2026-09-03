@@ -11,6 +11,9 @@ public class PacienteResponse {
     private String numeroExpediente;
     private String fechaNacimiento;
     private String genero;
+    private String dni;
+    private String telefono;
+    private String email;
     private boolean activo;
     private Long asociacionId;
     private String asociacionNombre;
@@ -62,6 +65,12 @@ public class PacienteResponse {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public boolean isActivo() {
         return activo;
@@ -85,5 +94,10 @@ public class PacienteResponse {
 
     public void setAsociacionNombre(String asociacionNombre) {
         this.asociacionNombre = asociacionNombre;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellidos + " (" + numeroExpediente + ")";
     }
 }

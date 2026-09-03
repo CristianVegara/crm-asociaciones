@@ -3,6 +3,8 @@ package com.aitsolutions.crmclient.sancion;
 import com.aitsolutions.crmclient.dto.SancionRequest;
 import com.aitsolutions.crmclient.dto.SancionResponse;
 import com.aitsolutions.crmclient.dto.TipoSancion;
+import com.aitsolutions.crmclient.dto.PacienteResponse;
+import com.aitsolutions.crmclient.dto.PaginaRespuesta;
 import com.aitsolutions.crmclient.http.ApiClient;
 import com.aitsolutions.crmclient.http.ApiException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,7 +25,7 @@ import java.util.function.Consumer;
 public class SancionScreenController {
 
     @FXML
-    private TextField campoPacienteId;
+    private ComboBox<PacienteResponse> comboPaciente;
 
     @FXML
     private Label etiquetaEstado;
@@ -64,13 +66,15 @@ public class SancionScreenController {
         columnaAutomatica.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().isAutomatica() ? "Sí" : "No"));
 
         comboTipoSancion.setItems(FXCollections.observableArrayList(TipoSancion.values()));
+        cargarPacientes();
     }
 
     @FXML
     private void onBuscarClick() {
-        Long pacienteId = leerLong(campoPacienteId.getText());
+        PacienteResponse paciente = comboPaciente.getValue();
+        Long pacienteId = paciente == null ? null : paciente.getId();
         if (pacienteId == null) {
-            etiquetaEstado.setText("Introduce un id de paciente válido");
+            etiquetaEstado.setText("Selecciona un paciente");
             return;
         }
 
@@ -87,12 +91,19 @@ public class SancionScreenController {
 
     @FXML
     private void onAplicarClick() {
-        Long pacienteId = leerLong(campoPacienteId.getText());
+        PacienteResponse paciente = comboPaciente.getValue();
+        Long pacienteId = paciente == null ? null : paciente.getId();
         TipoSancion tipo = comboTipoSancion.getValue();
 
         if (pacienteId == null || tipo == null || campoMotivo.getText().isBlank()) {
-            etiquetaEstado.setText("Indica el id de paciente, el tipo y el motivo");
+            etiquetaEstado.setText("Indica el paciente, el tipo y el motivo");
             return;
+        }
+
+        private void cargarPacientes() {
+            ejecutarAsync(() -> ApiClient.getInstance().getConTipoGenerico("/pacientes?size=1000",
+                    new TypeReference<PaginaRespuesta<PacienteResponse>>() {}),
+                    respuesta -> comboPaciente.setItems(FXCollections.observableArrayList(respuesta.getContent())));
         }
 
         // Campo opcional: solo se manda si el usuario ha escrito un id de plan valido.

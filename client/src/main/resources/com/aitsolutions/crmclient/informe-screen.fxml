@@ -6,8 +6,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -31,7 +33,10 @@
     </top>
 
     <center>
-        <GridPane hgap="16.0" vgap="16.0" styleClass="content-area">
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER"
+                    styleClass="content-area">
+          <content>
+            <GridPane hgap="16.0" vgap="16.0" styleClass="content-area">
             <VBox spacing="8.0" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="0">
                 <Label text="Pacientes" styleClass="card-title"/>
                 <Label fx:id="labelPacientesActivos" text="Activos: —"/>
@@ -83,6 +88,12 @@
                 </TableView>
                 <Button text="Regenerar seleccionado" onAction="#onRegenerarClick"/>
             </VBox>
-        </GridPane>
+                <columnConstraints>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="260"/>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="260"/>
+                </columnConstraints>
+            </GridPane>
+          </content>
+        </ScrollPane>
     </center>
 </BorderPane>

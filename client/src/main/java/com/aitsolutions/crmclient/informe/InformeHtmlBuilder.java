@@ -19,7 +19,7 @@ final class InformeHtmlBuilder {
         var pl = informe.getPlanesServicio();
         long base = s.getVerde() + s.getNaranja() + s.getRojo();
         String html = """
-                <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+                <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8" />
                 <style>
                 @page { size:A4; margin:20mm 18mm; background:#f8fafc; }
                 * { box-sizing:border-box; } body { font-family:Helvetica,Arial,sans-serif;

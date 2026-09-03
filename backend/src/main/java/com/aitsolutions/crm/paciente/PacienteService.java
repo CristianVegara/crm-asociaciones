@@ -8,8 +8,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class PacienteService {
+
+    private static final Pattern EXPEDIENTE_GENERADO =
+            Pattern.compile("([A-Z])E-(\\d{4})-(\\d{3})");
 
     private final PacienteRepository pacienteRepository;
     private final AsociacionService asociacionService;
@@ -31,16 +38,13 @@ public class PacienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("No existe el paciente con id " + id));
     }
 
-    public Paciente crear(PacienteRequest request) {
-        if (pacienteRepository.existsByNumeroExpediente(request.getNumeroExpediente())) {
-            throw new IllegalArgumentException(
-                    "Ya existe un paciente con el numero de expediente " + request.getNumeroExpediente());
-        }
+    public synchronized Paciente crear(PacienteRequest request) {
         Asociacion asociacion = asociacionService.buscarPorId(request.getAsociacionId());
+        String numeroExpediente = siguienteNumeroExpediente();
         Paciente paciente = new Paciente(
                 request.getNombre(),
                 request.getApellidos(),
-                request.getNumeroExpediente(),
+                numeroExpediente,
                 request.getFechaNacimiento(),
                 request.getGenero(),
                 asociacion
@@ -51,13 +55,46 @@ public class PacienteService {
         return pacienteRepository.save(paciente);
     }
 
+    private String siguienteNumeroExpediente() {
+        int year = Year.now().getValue();
+        char letra = 'M';
+        int secuencia = 0;
+
+        for (Paciente paciente : pacienteRepository.findAll()) {
+            Matcher matcher = EXPEDIENTE_GENERADO.matcher(paciente.getNumeroExpediente());
+            if (!matcher.matches() || Integer.parseInt(matcher.group(2)) != year) {
+                continue;
+            }
+            char letraEncontrada = matcher.group(1).charAt(0);
+            int secuenciaEncontrada = Integer.parseInt(matcher.group(3));
+            if (letraEncontrada > letra
+                    || (letraEncontrada == letra && secuenciaEncontrada > secuencia)) {
+                letra = letraEncontrada;
+                secuencia = secuenciaEncontrada;
+            }
+        }
+
+        if (secuencia == 999) {
+            letra++;
+            secuencia = 1;
+        } else {
+            secuencia++;
+        }
+        if (letra > 'Z') {
+            throw new IllegalStateException("Se ha agotado el rango de letras para expedientes del año " + year);
+        }
+        return String.format("%cE-%d-%03d", letra, year, secuencia);
+    }
+
     public Paciente actualizar(Long id, PacienteRequest request) {
         Paciente paciente = buscarPorId(id);
         Asociacion asociacion = asociacionService.buscarPorId(request.getAsociacionId());
 
         paciente.setNombre(request.getNombre());
         paciente.setApellidos(request.getApellidos());
-        paciente.setNumeroExpediente(request.getNumeroExpediente());
+        if (request.getNumeroExpediente() != null && !request.getNumeroExpediente().isBlank()) {
+            paciente.setNumeroExpediente(request.getNumeroExpediente());
+        }
         paciente.setFechaNacimiento(request.getFechaNacimiento());
         paciente.setGenero(request.getGenero());
         paciente.setDni(request.getDni());

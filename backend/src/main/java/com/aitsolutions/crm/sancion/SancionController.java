@@ -25,8 +25,11 @@ public class SancionController {
     }
 
     @GetMapping
-    public List<SancionResponse> listar(@RequestParam Long pacienteId) {
-        return sancionService.listarPorPaciente(pacienteId).stream().map(SancionResponse::new).toList();
+    public List<SancionResponse> listar(@RequestParam(required = false) Long pacienteId) {
+        List<Sancion> sanciones = pacienteId == null
+                ? sancionService.listarUltimas()
+                : sancionService.listarPorPaciente(pacienteId);
+        return sanciones.stream().map(SancionResponse::new).toList();
     }
 
     @PostMapping

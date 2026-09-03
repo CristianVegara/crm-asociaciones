@@ -51,6 +51,10 @@ public class SancionService {
         return sancionRepository.findByPacienteOrderByFechaDesc(paciente);
     }
 
+    public List<Sancion> listarUltimas() {
+        return sancionRepository.findTop20ByOrderByFechaDesc();
+    }
+
     public Sancion crearManual(SancionRequest request) {
         Paciente paciente = pacienteService.buscarPorId(request.getPacienteId());
         PlanServicio planServicio = null;

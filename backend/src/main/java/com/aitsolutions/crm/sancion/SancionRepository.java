@@ -10,6 +10,8 @@ public interface SancionRepository extends JpaRepository<Sancion, Long> {
 
     List<Sancion> findByPacienteOrderByFechaDesc(Paciente paciente);
 
+    List<Sancion> findTop20ByOrderByFechaDesc();
+
     // Usado por el informe (paso 8).
     List<Sancion> findByFechaBetween(LocalDate desde, LocalDate hasta);
 }

@@ -72,10 +72,10 @@ final class InformeHtmlBuilder {
                 <tr><td><strong>Planes de Servicio Finalizados</strong></td><td class="center">%d</td><td>Finalizaciones registradas</td></tr></table>
                 <div class="section-title">2. Desglose de Sesiones y Asistencia</div>
                 <table class="data-table"><tr><th>Estado</th><th class="center">Código</th><th class="center">Cantidad</th><th class="right">Distribución</th></tr>
-                <tr><td>Realizada con éxito</td><td class="center"><span class="badge green">Verde</span></td><td class="center">%d</td><td class="right">%.1f%%</td></tr>
-                <tr><td>Pendiente / Alerta</td><td class="center"><span class="badge orange">Naranja</span></td><td class="center">%d</td><td class="right">%.1f%%</td></tr>
-                <tr><td>Ausencia / Incidencia</td><td class="center"><span class="badge red">Rojo</span></td><td class="center">%d</td><td class="right">%.1f%%</td></tr>
-                <tr><td>Baja Médica</td><td class="center"><span class="badge yellow">Amarillo</span></td><td class="center">%d</td><td class="right">%.1f%%</td></tr></table>
+                <tr><td>Realizada con éxito</td><td class="center"><span class="badge green">Verde</span></td><td class="center">%d</td><td class="right">%s%%</td></tr>
+                <tr><td>Pendiente / Alerta</td><td class="center"><span class="badge orange">Naranja</span></td><td class="center">%d</td><td class="right">%s%%</td></tr>
+                <tr><td>Ausencia / Incidencia</td><td class="center"><span class="badge red">Rojo</span></td><td class="center">%d</td><td class="right">%s%%</td></tr>
+                <tr><td>Baja Médica</td><td class="center"><span class="badge yellow">Amarillo</span></td><td class="center">%d</td><td class="right">%s%%</td></tr></table>
                 <div class="section-title">3. Sanciones</div><table class="data-table"><tr><th>Tipo</th><th class="center">Cantidad</th></tr>
                 <tr><td>Automáticas</td><td class="center">%d</td></tr><tr><td>Manuales</td><td class="center">%d</td></tr>
                 <tr><td><strong>Total</strong></td><td class="center"><strong>%d</strong></td></tr></table>
@@ -93,6 +93,9 @@ final class InformeHtmlBuilder {
                 sa.getAutomaticas(), sa.getManuales(), sa.getTotal(), s.getTotal(), s.getPorcentajeAsistencia(),
                 p.getActivos(), pl.getCreadosEnPeriodo(), sa.getTotal());
         var servicios = informe.getServicios();
+        if (servicios == null) {
+            return html;
+        }
         String seccionServicios = """
                 <div class="section-title">4. Servicios</div>
                 <table class="data-table"><tr><th>Indicador</th><th class="right">Cantidad</th></tr>

@@ -161,7 +161,9 @@ public class InformeScreenController {
             Throwable causa = tarea.getException();
             String mensaje = (causa instanceof ApiException apiException)
                     ? apiException.getMessage()
-                    : "Error de conexión";
+                    : causa == null || causa.getMessage() == null
+                    ? "No se pudo generar el informe"
+                    : causa.getMessage();
             etiquetaEstado.setText(mensaje);
         });
 
@@ -211,7 +213,12 @@ public class InformeScreenController {
             etiquetaEstado.setText("Informe regenerado");
             cargarHistorial();
         });
-        tarea.setOnFailed(evento -> etiquetaEstado.setText("No se pudo regenerar el informe"));
+        tarea.setOnFailed(evento -> {
+            Throwable causa = tarea.getException();
+            etiquetaEstado.setText(causa instanceof ApiException apiException
+                    ? apiException.getMessage()
+                    : "No se pudo regenerar el informe");
+        });
         new Thread(tarea).start();
     }
 
@@ -235,7 +242,7 @@ public class InformeScreenController {
                     InformeHtmlBuilder.construir(ultimoInforme), temporal);
             Desktop.getDesktop().open(temporal);
             etiquetaEstado.setText("Previsualizando el PDF");
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             etiquetaEstado.setText("No se pudo previsualizar el PDF: " + e.getMessage());
         }
     }
@@ -267,7 +274,7 @@ public class InformeScreenController {
             InformePdfExporter.exportar(
                     InformeHtmlBuilder.construir(ultimoInforme), destino);
             etiquetaEstado.setText("PDF guardado: " + destino.getName());
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             etiquetaEstado.setText("No se pudo guardar el PDF: " + e.getMessage());
         }
     }

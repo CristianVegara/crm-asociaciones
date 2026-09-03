@@ -13,7 +13,6 @@ public class PacienteRequest {
     @NotBlank(message = "Los apellidos son obligatorios")
     private String apellidos;
 
-    @NotBlank(message = "El numero de expediente es obligatorio")
     private String numeroExpediente;
 
     private LocalDate fechaNacimiento;

@@ -232,10 +232,18 @@ public class InformeResumenResponse {
         private Map<String, Long> porAsociacion;
 
         public long getTotal() { return total; }
+        public void setTotal(long total) { this.total = total; }
         public long getCancelaciones() { return cancelaciones; }
+        public void setCancelaciones(long cancelaciones) { this.cancelaciones = cancelaciones; }
         public double getPorcentajeCancelaciones() { return porcentajeCancelaciones; }
+        public void setPorcentajeCancelaciones(double porcentajeCancelaciones) {
+            this.porcentajeCancelaciones = porcentajeCancelaciones;
+        }
         public Map<String, Long> getPorServicio() { return porServicio; }
+        public void setPorServicio(Map<String, Long> porServicio) { this.porServicio = porServicio; }
         public Map<String, Long> getPorSexo() { return porSexo; }
+        public void setPorSexo(Map<String, Long> porSexo) { this.porSexo = porSexo; }
         public Map<String, Long> getPorAsociacion() { return porAsociacion; }
+        public void setPorAsociacion(Map<String, Long> porAsociacion) { this.porAsociacion = porAsociacion; }
     }
 }

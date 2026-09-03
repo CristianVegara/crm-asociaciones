@@ -132,25 +132,27 @@ public class PacienteListadoController {
         ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.OK_DONE);
         dialogo.getDialogPane().getButtonTypes().addAll(registrar, ButtonType.CANCEL);
 
-        TextField nombre = new TextField(), apellidos = new TextField(), expediente = new TextField();
+        TextField nombre = new TextField(), apellidos = new TextField();
         TextField dni = new TextField(), telefono = new TextField(), email = new TextField();
         DatePicker nacimiento = new DatePicker();
         ComboBox<String> genero = new ComboBox<>(FXCollections.observableArrayList(
                 "Femenino", "Masculino", "No especificado"));
         ComboBox<AsociacionResponse> asociacion = new ComboBox<>();
-        cargarAsociaciones(asociacion);
+        dialogo.getDialogPane().lookupButton(registrar).setDisable(true);
+        cargarAsociaciones(asociacion,
+                () -> dialogo.getDialogPane().lookupButton(registrar).setDisable(false));
         GridPane formulario = new GridPane();
         formulario.setHgap(8); formulario.setVgap(8); formulario.setPadding(new Insets(10));
         formulario.addRow(0, new Label("Nombre *"), nombre, new Label("Apellidos *"), apellidos);
-        formulario.addRow(1, new Label("Expediente *"), expediente, new Label("DNI"), dni);
+        formulario.addRow(1, new Label("DNI"), dni);
         formulario.addRow(2, new Label("Teléfono"), telefono, new Label("Email"), email);
         formulario.addRow(3, new Label("Nacimiento"), nacimiento, new Label("Género"), genero);
         formulario.addRow(4, new Label("Asociación *"), asociacion);
         dialogo.getDialogPane().setContent(formulario);
         dialogo.setResultConverter(boton -> boton == registrar && !nombre.getText().isBlank()
-                && !apellidos.getText().isBlank() && !expediente.getText().isBlank()
+                && !apellidos.getText().isBlank()
                 && asociacion.getValue() != null
-                ? new PacienteRequest(nombre.getText(), apellidos.getText(), expediente.getText(),
+                ? new PacienteRequest(nombre.getText(), apellidos.getText(), null,
                 nacimiento.getValue() == null ? null : nacimiento.getValue().toString(), genero.getValue(),
                 dni.getText(), telefono.getText(), email.getText(), asociacion.getValue().getId()) : null);
         dialogo.showAndWait().ifPresent(this::registrarPaciente);
@@ -180,13 +182,16 @@ public class PacienteListadoController {
         new Thread(tarea).start();
     }
 
-    private void cargarAsociaciones(ComboBox<AsociacionResponse> destino) {
+    private void cargarAsociaciones(ComboBox<AsociacionResponse> destino, Runnable alCompletar) {
         Task<AsociacionResponse[]> tarea = new Task<>() {
             @Override protected AsociacionResponse[] call() {
                 return ApiClient.getInstance().get("/asociaciones", AsociacionResponse[].class);
             }
         };
-        tarea.setOnSucceeded(e -> destino.setItems(FXCollections.observableArrayList(tarea.getValue())));
+        tarea.setOnSucceeded(e -> {
+            destino.setItems(FXCollections.observableArrayList(tarea.getValue()));
+            alCompletar.run();
+        });
         tarea.setOnFailed(e -> etiquetaEstado.setText("No se pudieron cargar las asociaciones"));
         new Thread(tarea).start();
     }

@@ -67,6 +67,7 @@ public class SancionScreenController {
 
         comboTipoSancion.setItems(FXCollections.observableArrayList(TipoSancion.values()));
         cargarPacientes();
+        cargarUltimasSanciones();
     }
 
     @FXML
@@ -121,6 +122,17 @@ public class SancionScreenController {
         ejecutarAsync(() -> ApiClient.getInstance().getConTipoGenerico("/pacientes?size=1000",
                 new TypeReference<PaginaRespuesta<PacienteResponse>>() {}),
                 respuesta -> comboPaciente.setItems(FXCollections.observableArrayList(respuesta.getContent())));
+    }
+
+    private void cargarUltimasSanciones() {
+        ejecutarAsync(
+                () -> ApiClient.getInstance().getConTipoGenerico(
+                        "/sanciones", new TypeReference<List<SancionResponse>>() {}),
+                lista -> {
+                    tablaSanciones.setItems(FXCollections.observableArrayList(lista));
+                    etiquetaEstado.setText("Últimas " + lista.size() + " sanción(es)");
+                }
+        );
     }
 
     private Long leerLong(String texto) {

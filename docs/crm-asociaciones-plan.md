@@ -196,7 +196,7 @@ La plantilla del informe se genera como HTML/CSS con cabecera azul marino, tarje
 6. Reglas de sanciones automáticas + módulo de aplicar sanción manual
 7. Módulo de Trabajadores y roles (gestión de permisos por el director)
 8. Módulo de informes con cálculos reales, histórico y exportación PDF
-9. Empaquetado con `jpackage` + instalación piloto en un puesto
+9. Empaquetado con `jpackage` + instalación piloto en un puesto (DMG macOS Apple Silicon preparado)
 10. Rollout al resto de puestos de la oficina
 
 ## 10. Despliegue
@@ -204,6 +204,10 @@ La plantilla del informe se genera como HTML/CSS con cabecera azul marino, tarje
 - Servidor: JDK + PostgreSQL/MySQL + backend como servicio del sistema (systemd/servicio Windows) con arranque automático
 - Cliente: empaquetado nativo con `jpackage` (incluye el runtime de Java, no requiere instalación previa en cada PC)
 - IP del servidor configurable desde el cliente (`.properties` o pantalla de configuración inicial), sin necesidad de recompilar si cambia
+- Para macOS Apple Silicon, el cliente se empaqueta como DMG mediante `client/package-macos.sh`.
+- La URL externa se lee desde `~/.crm-asociaciones/client.properties`; el backend no se incluye en el DMG.
+- El DMG se ha generado y validado en `client/target/jpackage-output/` con versión de paquete macOS `1.0.0`.
+- El launcher usa una clase de entrada independiente (`com.aitsolutions.crmclient.Launcher`) para iniciar JavaFX correctamente desde el `.app`.
 
 ## 11. Alta de servicios desde la ficha del paciente (confirmado)
 

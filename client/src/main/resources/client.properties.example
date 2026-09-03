@@ -1,0 +1,2 @@
+# Copia este archivo a ~/.crm-asociaciones/client.properties
+api.base-url=http://localhost:8080

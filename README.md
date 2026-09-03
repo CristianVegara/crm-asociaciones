@@ -23,8 +23,33 @@ crm-asociaciones/
 - [x] 6. Reglas de sanciones automáticas + módulo de aplicar sanción manual
 - [x] 7. Módulo de Trabajadores y roles (gestión de permisos por el director)
 - [x] 8. Módulo de informes con cálculos reales
-- [ ] 9. Empaquetado con `jpackage` + instalación piloto
+- [x] 9. Empaquetado con `jpackage` + instalación piloto (DMG macOS Apple Silicon preparado)
 - [ ] 10. Rollout al resto de puestos
+
+### Empaquetado macOS Apple Silicon
+
+El cliente se puede empaquetar como DMG desde un Mac Apple Silicon:
+
+```bash
+cd client
+chmod +x package-macos.sh
+./package-macos.sh
+```
+
+El resultado queda en `client/target/jpackage-output/`. El instalador no incluye el
+backend: debe estar ejecutándose en el servidor de la oficina.
+
+La URL del backend se configura externamente en:
+
+```text
+~/.crm-asociaciones/client.properties
+```
+
+Ejemplo:
+
+```properties
+api.base-url=http://localhost:8080
+```
 
 ## Backend — cómo arrancar
 

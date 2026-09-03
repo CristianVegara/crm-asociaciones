@@ -62,6 +62,16 @@ mvn javafx:run
 
 Los avisos de `restricted method` y `Unsafe` son advertencias de JavaFX/JDK y no impiden la ejecución.
 
+## 8. Empaquetado piloto
+
+- Se preparó `client/package-macos.sh` para generar un DMG de macOS Apple Silicon.
+- El script compila el cliente, copia sus dependencias runtime y ejecuta `jpackage`.
+- El backend no se incluye en el instalador.
+- La configuración externa se busca primero en `~/.crm-asociaciones/client.properties` y, como alternativa de desarrollo, en `client.properties` del directorio actual.
+- El DMG se generó correctamente en `client/target/jpackage-output/`.
+- Tras probarlo, se corrigió el arranque del `.app` añadiendo `Launcher`, una entrada Java estándar que invoca `Application.launch`.
+- El DMG regenerado se probó ejecutando directamente su binario macOS y JavaFX inició correctamente.
+
 ## 7. Ampliación solicitada por el cliente
 
 - Se añadió el selector de `Informe general` e `Informe de servicios`.

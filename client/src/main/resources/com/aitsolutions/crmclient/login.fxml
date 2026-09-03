@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="14.0" xmlns="http://javafx.com/javafx"
@@ -16,7 +18,12 @@
         <Insets top="20.0" right="10.0" bottom="20.0" left="10.0"/>
     </padding>
 
-    <Label text="CRM Asociaciones" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <ImageView fitWidth="220.0" fitHeight="78.0" preserveRatio="true">
+        <image>
+            <Image url="@logo.png"/>
+        </image>
+    </ImageView>
+    <Label text="CRM Asociaciones" styleClass="login-title"/>
     <Label text="Inicia sesión con tu usuario y contraseña" styleClass="status-label"/>
 
     <TextField fx:id="campoUsuario" promptText="Usuario" maxWidth="260.0"/>

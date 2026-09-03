@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws IOException {
         stagePrincipal = stage;
         stage.setTitle("CRM Asociaciones");
+        stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("logo.png")));
         mostrarLogin();
         stage.show();
     }

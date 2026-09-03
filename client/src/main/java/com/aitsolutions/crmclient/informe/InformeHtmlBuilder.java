@@ -21,11 +21,11 @@ final class InformeHtmlBuilder {
         String html = """
                 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8" />
                 <style>
-                @page { size:A4; margin:20mm 18mm; background:#f8fafc; }
+                @page { size:A4; margin:20mm 18mm; background:#f3f6fa; }
                 * { box-sizing:border-box; } body { font-family:Helvetica,Arial,sans-serif;
                 color:#1e293b; margin:0; font-size:10pt; line-height:1.5; }
-                .header-bar { background:#0f172a; color:#fff; margin:-20mm -18mm 25px;
-                padding:24px 20mm; border-bottom:4px solid #0284c7; }
+                .header-bar { background:#102a43; color:#fff; margin:-20mm -18mm 25px;
+                padding:26px 20mm; border-bottom:4px solid #1677a8; }
                 .header-table { width:100%%; border-collapse:collapse; }
                 .metrics-table { width:100%%; border-collapse:separate; border-spacing:10px; margin-left:-10px; margin-right:-10px; }
                 .data-table { width:100%%; border-collapse:collapse; }
@@ -33,23 +33,23 @@ final class InformeHtmlBuilder {
                 .doc-title { font-size:18pt; font-weight:700; margin:0 0 4px; text-transform:uppercase; }
                 .doc-subtitle { font-size:10pt; color:#94a3b8; } .meta-box { text-align:right;
                 font-size:9pt; color:#cbd5e1; } .meta-box strong { color:#fff; }
-                .section-title { font-size:11pt; font-weight:700; color:#0f172a;
+                .section-title { font-size:11pt; font-weight:700; color:#102a43;
                 text-transform:uppercase; margin:20px 0 10px; padding-left:8px;
-                border-left:3px solid #0284c7; }
+                border-left:3px solid #1677a8; }
                 .metrics-table { margin-bottom:15px; } .metric-card { background:#fff;
-                border:1px solid #e2e8f0; padding:12px 15px; text-align:center; }
+                border:1px solid #d9e2ec; padding:13px 15px; text-align:center; }
                 .metric-card { border-radius:6px; } .metric-label { font-size:8.5pt; text-transform:uppercase; color:#64748b; font-weight:600; margin-bottom:4px; }
-                .metric-value { font-size:18pt; font-weight:700; color:#0f172a; }
-                .highlight { color:#0284c7; } .success { color:#16a34a; }
-                .data-table { background:#fff; border:1px solid #e2e8f0; margin-bottom:20px; }
-                .data-table th { background:#f1f5f9; color:#334155; font-size:8.5pt;
+                .metric-value { font-size:18pt; font-weight:700; color:#102a43; }
+                .highlight { color:#1677a8; } .success { color:#16805b; }
+                .data-table { background:#fff; border:1px solid #d9e2ec; margin-bottom:20px; }
+                .data-table th { background:#eaf2f8; color:#243b53; font-size:8.5pt;
                 text-transform:uppercase; letter-spacing:.5px; padding:10px 14px; text-align:left; border-bottom:1px solid #cbd5e1; }
                 .data-table td { padding:10px 14px; color:#334155; border-bottom:1px solid #f1f5f9; }
                 .center { text-align:center; } .right { text-align:right; }
                 .badge { padding:2px 8px; border-radius:12px; font-size:8pt; font-weight:600; }
                 .green { background:#dcfce7; color:#15803d; } .orange { background:#ffedd5; color:#c2410c; }
                 .red { background:#fee2e2; color:#b91c1c; } .yellow { background:#fef9c3; color:#a16207; }
-                .callout { background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7;
+                .callout { background:#eaf5fb; border:1px solid #b7d9ea; border-left:4px solid #1677a8;
                 padding:12px 16px; margin-top:20px; } .callout-title { color:#0369a1; font-weight:700; }
                 .callout-desc { color:#0c4a6e; } .footer { margin-top:28px; text-align:center;
                 font-size:8pt; color:#94a3b8; border-top:1px solid #e2e8f0; padding-top:8px; }

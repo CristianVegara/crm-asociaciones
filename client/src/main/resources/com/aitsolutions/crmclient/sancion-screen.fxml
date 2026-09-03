@@ -15,15 +15,16 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.aitsolutions.crmclient.sancion.SancionScreenController">
     <top>
-                <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
+        <HBox spacing="12.0" alignment="CENTER_LEFT" styleClass="screen-header">
             <Label text="Sanciones" styleClass="screen-title"/>
-                    <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
+            <ComboBox fx:id="comboPaciente" promptText="Filtrar por paciente" prefWidth="260.0"/>
+            <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
             <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
 
     <center>
-        <TableView fx:id="tablaSanciones">
+        <TableView fx:id="tablaSanciones" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnaFecha" text="Fecha" prefWidth="100.0"/>
                 <TableColumn fx:id="columnaTipo" text="Tipo" prefWidth="180.0"/>
@@ -40,8 +41,7 @@
                 <Insets top="14.0" right="15.0" bottom="15.0" left="15.0"/>
             </padding>
             <Label text="Aplicar sanción manual" styleClass="card-title"/>
-            <HBox spacing="8.0" alignment="CENTER_LEFT">
-                <ComboBox fx:id="comboPaciente" promptText="Paciente" prefWidth="240.0"/>
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
                 <ComboBox fx:id="comboTipoSancion" promptText="Tipo"/>
                 <TextField fx:id="campoPlanServicioId" promptText="Id de plan (opcional)"/>
                 <TextField fx:id="campoMotivo" promptText="Motivo" HBox.hgrow="ALWAYS"/>

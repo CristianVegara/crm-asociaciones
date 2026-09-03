@@ -108,3 +108,7 @@ Los avisos de `restricted method` y `Unsafe` son advertencias de JavaFX/JDK y no
 - El historial ocupa ahora todo el cuerpo de Informes; se retiró el panel de indicadores
   duplicado de la pantalla y se mantiene la exportación/regeneración.
 - El alta de pacientes se abre desde un botón en un diálogo independiente.
+- Los informes PDF adoptan la plantilla ejecutiva solicitada (cabecera azul marino,
+  métricas destacadas, tablas, badges de estado y resumen operativo).
+- La pantalla vuelve a ofrecer «Previsualizar PDF» después de generar o regenerar un informe,
+  abriendo el PDF temporal final con el visor predeterminado del sistema.

@@ -41,6 +41,7 @@ public class MainApp extends Application {
         Scene escena = new Scene(raiz, ancho, alto);
         escena.getStylesheets().add(MainApp.class.getResource("styles.css").toExternalForm());
         stagePrincipal.setScene(escena);
+        stagePrincipal.centerOnScreen();
     }
 
     public static void main(String[] args) {

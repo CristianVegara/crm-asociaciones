@@ -26,7 +26,9 @@ final class InformeHtmlBuilder {
                 color:#1e293b; margin:0; font-size:10pt; line-height:1.5; }
                 .header-bar { background:#0f172a; color:#fff; margin:-20mm -18mm 25px;
                 padding:24px 20mm; border-bottom:4px solid #0284c7; }
-                .header-table,.metrics-table,.data-table { width:100%%; border-collapse:collapse; }
+                .header-table { width:100%%; border-collapse:collapse; }
+                .metrics-table { width:100%%; border-collapse:separate; border-spacing:10px; margin-left:-10px; margin-right:-10px; }
+                .data-table { width:100%%; border-collapse:collapse; }
                 .header-table td { vertical-align:middle; padding:0; }
                 .doc-title { font-size:18pt; font-weight:700; margin:0 0 4px; text-transform:uppercase; }
                 .doc-subtitle { font-size:10pt; color:#94a3b8; } .meta-box { text-align:right;
@@ -36,12 +38,12 @@ final class InformeHtmlBuilder {
                 border-left:3px solid #0284c7; }
                 .metrics-table { margin-bottom:15px; } .metric-card { background:#fff;
                 border:1px solid #e2e8f0; padding:12px 15px; text-align:center; }
-                .metric-label { font-size:8.5pt; text-transform:uppercase; color:#64748b; font-weight:600; }
+                .metric-card { border-radius:6px; } .metric-label { font-size:8.5pt; text-transform:uppercase; color:#64748b; font-weight:600; margin-bottom:4px; }
                 .metric-value { font-size:18pt; font-weight:700; color:#0f172a; }
                 .highlight { color:#0284c7; } .success { color:#16a34a; }
                 .data-table { background:#fff; border:1px solid #e2e8f0; margin-bottom:20px; }
                 .data-table th { background:#f1f5f9; color:#334155; font-size:8.5pt;
-                text-transform:uppercase; padding:10px 14px; text-align:left; }
+                text-transform:uppercase; letter-spacing:.5px; padding:10px 14px; text-align:left; border-bottom:1px solid #cbd5e1; }
                 .data-table td { padding:10px 14px; color:#334155; border-bottom:1px solid #f1f5f9; }
                 .center { text-align:center; } .right { text-align:right; }
                 .badge { padding:2px 8px; border-radius:12px; font-size:8pt; font-weight:600; }

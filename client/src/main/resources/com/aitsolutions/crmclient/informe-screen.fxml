@@ -22,6 +22,8 @@
             <Button text="Generar" onAction="#onGenerarClick" styleClass="button-primary"/>
             <Button fx:id="botonExportarPdf" text="Exportar PDF" onAction="#onExportarPdfClick"
                     disable="true" styleClass="button-primary"/>
+            <Button fx:id="botonPrevisualizarPdf" text="Previsualizar PDF"
+                    onAction="#onPrevisualizarPdfClick" disable="true"/>
             <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>

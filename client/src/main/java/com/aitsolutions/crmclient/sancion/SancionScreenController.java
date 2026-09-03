@@ -100,12 +100,6 @@ public class SancionScreenController {
             return;
         }
 
-        private void cargarPacientes() {
-            ejecutarAsync(() -> ApiClient.getInstance().getConTipoGenerico("/pacientes?size=1000",
-                    new TypeReference<PaginaRespuesta<PacienteResponse>>() {}),
-                    respuesta -> comboPaciente.setItems(FXCollections.observableArrayList(respuesta.getContent())));
-        }
-
         // Campo opcional: solo se manda si el usuario ha escrito un id de plan valido.
         Long planServicioId = leerLong(campoPlanServicioId.getText());
 
@@ -121,6 +115,12 @@ public class SancionScreenController {
                     onBuscarClick(); // refresca la tabla con la nueva sanción incluida
                 }
         );
+    }
+
+    private void cargarPacientes() {
+        ejecutarAsync(() -> ApiClient.getInstance().getConTipoGenerico("/pacientes?size=1000",
+                new TypeReference<PaginaRespuesta<PacienteResponse>>() {}),
+                respuesta -> comboPaciente.setItems(FXCollections.observableArrayList(respuesta.getContent())));
     }
 
     private Long leerLong(String texto) {

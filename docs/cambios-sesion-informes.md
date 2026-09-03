@@ -105,3 +105,6 @@ Los avisos de `restricted method` y `Unsafe` son advertencias de JavaFX/JDK y no
   que los indicadores y el historial queden ocultos en ventanas pequeñas.
 - Sanciones permite seleccionar al paciente por nombre, apellidos y expediente mediante un
   selector cargado desde el backend, eliminando la introducción manual del ID.
+- El historial ocupa ahora todo el cuerpo de Informes; se retiró el panel de indicadores
+  duplicado de la pantalla y se mantiene la exportación/regeneración.
+- El alta de pacientes se abre desde un botón en un diálogo independiente.

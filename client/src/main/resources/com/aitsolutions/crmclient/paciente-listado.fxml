@@ -6,46 +6,20 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.aitsolutions.crmclient.paciente.PacienteListadoController">
     <top>
-        <VBox styleClass="screen-header" spacing="10">
-            <HBox spacing="10.0" alignment="CENTER_LEFT">
+        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="screen-header">
                 <Label text="Pacientes" styleClass="screen-title"/>
                 <TextField fx:id="campoBusqueda" promptText="Buscar por nombre..." HBox.hgrow="ALWAYS"/>
                 <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
-            </HBox>
-            <GridPane hgap="8" vgap="6" styleClass="card">
-                <Label text="Nombre *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <TextField fx:id="campoNombre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                <Label text="Apellidos *" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                <TextField fx:id="campoApellidos" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                <Label text="Expediente *" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <TextField fx:id="campoExpediente" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <Label text="DNI" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                <TextField fx:id="campoDni" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <TextField fx:id="campoTelefono" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <Label text="Email" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                <TextField fx:id="campoEmail" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                <Label text="Nacimiento" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                <DatePicker fx:id="campoFechaNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                <Label text="Género" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                <ComboBox fx:id="comboGenero" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                <Label text="Asociación *" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                <ComboBox fx:id="comboAsociacion" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                <Button text="Registrar paciente" onAction="#onCrearClick" styleClass="button-primary"
-                        GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-            </GridPane>
-        </VBox>
+                <Button text="Registrar paciente" onAction="#onCrearClick" styleClass="button-primary"/>
+        </HBox>
     </top>
 
     <center>

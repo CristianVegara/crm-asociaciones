@@ -152,9 +152,7 @@ public class InformeScreenController {
 
         tarea.setOnSucceeded(evento -> {
             ultimoInforme = tarea.getValue();
-            mostrarResultado(ultimoInforme);
             botonExportarPdf.setDisable(false);
-            botonPrevisualizarPdf.setDisable(false);
             etiquetaEstado.setText("Informe generado");
         });
 
@@ -207,9 +205,7 @@ public class InformeScreenController {
         };
         tarea.setOnSucceeded(evento -> {
             ultimoInforme = tarea.getValue();
-            mostrarResultado(ultimoInforme);
             botonExportarPdf.setDisable(false);
-            botonPrevisualizarPdf.setDisable(false);
             etiquetaEstado.setText("Informe regenerado");
             cargarHistorial();
         });

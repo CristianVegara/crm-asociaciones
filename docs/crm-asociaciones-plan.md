@@ -208,6 +208,7 @@ La plantilla del informe se genera como HTML/CSS con cabecera azul marino, tarje
 - La URL externa se lee desde `~/.crm-asociaciones/client.properties`; el backend no se incluye en el DMG.
 - El DMG se ha generado y validado en `client/target/jpackage-output/` con versión de paquete macOS `1.0.0`.
 - El launcher usa una clase de entrada independiente (`com.aitsolutions.crmclient.Launcher`) para iniciar JavaFX correctamente desde el `.app`.
+- Para el rollout multiplataforma se añade `client/package-windows.ps1`, que genera un instalador `.exe` desde Windows; la distribución y configuración por puesto se documentan en `docs/despliegue-oficina.md`.
 
 ## 11. Alta de servicios desde la ficha del paciente (confirmado)
 

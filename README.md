@@ -51,6 +51,10 @@ Ejemplo:
 api.base-url=http://localhost:8080
 ```
 
+Para desplegar el cliente en puestos Windows, el instalador se genera desde Windows
+con `client/package-windows.ps1`. El procedimiento completo está en
+[`docs/despliegue-oficina.md`](./docs/despliegue-oficina.md).
+
 ## Backend — cómo arrancar
 
 1. Crear la base de datos en MySQL: `CREATE DATABASE crm_asociaciones;`

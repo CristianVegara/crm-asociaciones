@@ -59,7 +59,6 @@ public class ShellController {
         boolean veDashboard = sesion.tienePermiso("VER_INFORMES");
         boolean veAsociaciones = sesion.tienePermiso("GESTIONAR_PACIENTES");
         boolean veCatalogo = sesion.tienePermiso("GESTIONAR_CATALOGO_SERVICIOS");
-        boolean veAuditoria = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
         boolean veTrabajadores = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veInformes = sesion.tienePermiso("VER_INFORMES");
@@ -70,7 +69,9 @@ public class ShellController {
         configurarVisibilidad(botonDashboard, veDashboard);
         configurarVisibilidad(botonAsociaciones, veAsociaciones);
         configurarVisibilidad(botonCatalogo, veCatalogo);
-        configurarVisibilidad(botonAuditoria, veAuditoria);
+        // Auditoría desactivada temporalmente: se mantiene implementada en backend
+        // para poder reactivarla sin perder el histórico.
+        configurarVisibilidad(botonAuditoria, false);
         configurarVisibilidad(botonSanciones, veSanciones);
         configurarVisibilidad(botonTrabajadores, veTrabajadores);
         configurarVisibilidad(botonInformes, veInformes);
@@ -84,8 +85,6 @@ public class ShellController {
             cargarModulo("plan-servicio-screen.fxml", botonPlanes);
         } else if (veAgenda) {
             cargarModulo("agenda-screen.fxml", botonAgenda);
-        } else if (veAuditoria) {
-            cargarModulo("auditoria-screen.fxml", botonAuditoria);
         } else if (veSanciones) {
             cargarModulo("sancion-screen.fxml", botonSanciones);
         } else if (veTrabajadores) {

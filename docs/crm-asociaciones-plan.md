@@ -40,6 +40,9 @@
 >
 > **Revisión 13 (04/09/2026)**: se incorpora el módulo independiente de asociaciones con
 > listado, alta y edición, protegido por `GESTIONAR_PACIENTES`.
+>
+> **Revisión 14 (04/09/2026)**: el módulo de Auditoría queda desactivado temporalmente y
+> su pestaña se oculta en el cliente, conservando el backend y el histórico.
 
 ## 1. Qué era el prototipo original
 

@@ -19,6 +19,7 @@
                 <TextField fx:id="campoBusqueda" promptText="Buscar por nombre..." HBox.hgrow="ALWAYS"/>
                 <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
                 <Button text="Registrar paciente" onAction="#onCrearClick" styleClass="button-primary"/>
+                <Button fx:id="botonEditar" text="Editar paciente" onAction="#onEditarClick"/>
                 <Button fx:id="botonFicha" text="Abrir ficha" onAction="#onFichaClick" styleClass="button-primary"/>
         </HBox>
     </top>

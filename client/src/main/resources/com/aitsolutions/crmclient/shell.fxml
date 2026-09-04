@@ -30,6 +30,7 @@
             </Label>
 
             <Button fx:id="botonPacientes" text="Pacientes" styleClass="nav-button" onAction="#onPacientesClick"/>
+            <Button fx:id="botonPlanes" text="Planes" styleClass="nav-button" onAction="#onPlanesClick"/>
             <Button fx:id="botonSanciones" text="Sanciones" styleClass="nav-button" onAction="#onSancionesClick"/>
             <Button fx:id="botonTrabajadores" text="Trabajadores y roles" styleClass="nav-button" onAction="#onTrabajadoresClick"/>
             <Button fx:id="botonInformes" text="Informes" styleClass="nav-button" onAction="#onInformesClick"/>

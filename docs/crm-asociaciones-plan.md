@@ -257,3 +257,10 @@ pasa a `CANCELADA`. Al cancelar un plan se cancelan sus sesiones futuras pendien
 El sistema inicializa de forma idempotente estos tipos de servicio, manteniendo su gestión
 posterior desde el CRM: Ambulancia, Psicología, Rehabilitación, Transporte, Ayuda a domicilio
 y Trabajo social. Cada tipo incluye un icono y un color visual propios.
+
+## 14. Módulo global de planes
+
+Además del alta contextual desde la ficha del paciente, el cliente JavaFX incluye
+un módulo global de **Planes**. Permite listar y filtrar planes por paciente,
+servicio y estado, crear un plan seleccionando el paciente y cancelar planes
+manteniendo el histórico. El acceso requiere `CREAR_PLAN_SERVICIO`.

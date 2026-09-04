@@ -18,6 +18,8 @@ public class ShellController {
     private static final Logger LOG = Logger.getLogger(ShellController.class.getName());
     @FXML
     private Button botonPacientes;
+    @FXML
+    private Button botonPlanes;
 
     @FXML
     private Button botonSanciones;
@@ -42,11 +44,13 @@ public class ShellController {
         etiquetaSesion.setText(sesion.getNombreCompleto() + " · " + sesion.getRolNombre());
 
         boolean vePacientes = sesion.tienePermiso("GESTIONAR_PACIENTES");
+        boolean vePlanes = sesion.tienePermiso("CREAR_PLAN_SERVICIO");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
         boolean veTrabajadores = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veInformes = sesion.tienePermiso("VER_INFORMES");
 
         configurarVisibilidad(botonPacientes, vePacientes);
+        configurarVisibilidad(botonPlanes, vePlanes);
         configurarVisibilidad(botonSanciones, veSanciones);
         configurarVisibilidad(botonTrabajadores, veTrabajadores);
         configurarVisibilidad(botonInformes, veInformes);
@@ -54,6 +58,8 @@ public class ShellController {
         // Aterriza en el primer modulo al que el trabajador tenga acceso.
         if (vePacientes) {
             cargarModulo("paciente-listado.fxml", botonPacientes);
+        } else if (vePlanes) {
+            cargarModulo("plan-servicio-screen.fxml", botonPlanes);
         } else if (veSanciones) {
             cargarModulo("sancion-screen.fxml", botonSanciones);
         } else if (veTrabajadores) {
@@ -63,6 +69,7 @@ public class ShellController {
         } else {
             cargarModulo("bienvenida.fxml", null);
         }
+
     }
 
     private void configurarVisibilidad(Button boton, boolean visible) {
@@ -73,6 +80,11 @@ public class ShellController {
     @FXML
     private void onPacientesClick() {
         cargarModulo("paciente-listado.fxml", botonPacientes);
+    }
+
+    @FXML
+    private void onPlanesClick() {
+        cargarModulo("plan-servicio-screen.fxml", botonPlanes);
     }
 
     @FXML
@@ -119,7 +131,7 @@ public class ShellController {
     }
 
     private void marcarBotonActivo(Button botonActivo) {
-        for (Button boton : new Button[]{botonPacientes, botonSanciones, botonTrabajadores, botonInformes}) {
+        for (Button boton : new Button[]{botonPacientes, botonPlanes, botonSanciones, botonTrabajadores, botonInformes}) {
             boton.getStyleClass().remove(CLASE_BOTON_ACTIVO);
         }
         if (botonActivo != null) {

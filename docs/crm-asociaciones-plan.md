@@ -28,6 +28,9 @@
 > **Revisión 9 (04/09/2026)**: se traducen los días de la ficha del paciente, se ajusta el
 > espaciado general de la interfaz y se aclara que el catálogo administra servicios; la
 > asignación de servicios a pacientes se realiza desde Planes.
+>
+> **Revisión 10 (04/09/2026)**: se incorpora auditoría técnica de accesos y operaciones HTTP,
+> consultable únicamente con `GESTIONAR_TRABAJADORES`; no se almacenan credenciales ni tokens.
 
 ## 1. Qué era el prototipo original
 

@@ -41,6 +41,10 @@ sudo systemctl status crm-asociaciones-backend
 
 No incluir credenciales en el repositorio ni en los instaladores de los clientes.
 
+La aplicación registra en `auditoria_evento` el usuario, fecha, operación, ruta, resultado
+HTTP y dirección IP. La consulta está restringida al permiso `GESTIONAR_TRABAJADORES` mediante
+`GET /auditoria`. Este registro no sustituye la política externa de copias de seguridad.
+
 En un servidor macOS, usar el servicio de arranque incluido:
 
 ```bash

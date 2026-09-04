@@ -6,29 +6,34 @@ import com.aitsolutions.crmclient.http.ApiException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import java.util.List;
+import java.util.Locale;
 
 public class AsociacionController {
     @FXML private TableView<AsociacionResponse> tabla;
     @FXML private TableColumn<AsociacionResponse, String> columnaNombre, columnaDireccion, columnaContacto;
     @FXML private Label etiquetaEstado;
+    @FXML private TextField campoBusqueda;
+    private FilteredList<AsociacionResponse> asociaciones;
 
     @FXML private void initialize() {
         columnaNombre.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getNombre()));
-        columnaDireccion.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDireccion()));
-        columnaContacto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getContacto()));
-        tabla.getSelectionModel().selectedItemProperty().addListener((o, a, b) -> {});
+        columnaDireccion.setCellValueFactory(c -> new SimpleStringProperty(valor(c.getValue().getDireccion())));
+        columnaContacto.setCellValueFactory(c -> new SimpleStringProperty(valor(c.getValue().getContacto())));
+        campoBusqueda.textProperty().addListener((obs, anterior, actual) -> filtrar(actual));
         cargar();
     }
 
     @FXML private void onNuevaClick() { mostrarFormulario(null); }
     @FXML private void onEditarClick() { mostrarFormulario(tabla.getSelectionModel().getSelectedItem()); }
     @FXML private void onActualizarClick() { cargar(); }
+    @FXML private void onBuscarClick() { filtrar(campoBusqueda.getText()); }
 
     private void mostrarFormulario(AsociacionResponse existente) {
         Dialog<AsociacionRequest> dialogo = new Dialog<>();
@@ -58,9 +63,26 @@ public class AsociacionController {
         etiquetaEstado.setText("Cargando...");
         ejecutar(() -> ApiClient.getInstance().getConTipoGenerico("/asociaciones",
                 new TypeReference<List<AsociacionResponse>>() {}), lista -> {
-            tabla.setItems(FXCollections.observableArrayList(lista));
-            etiquetaEstado.setText(lista.size() + " asociación(es)");
+            asociaciones = new FilteredList<>(FXCollections.observableArrayList(lista));
+            tabla.setItems(asociaciones);
+            filtrar(campoBusqueda.getText());
         });
+    }
+
+    private void filtrar(String texto) {
+        if (asociaciones == null) {
+            return;
+        }
+        String criterio = valor(texto).trim().toLowerCase(Locale.ROOT);
+        asociaciones.setPredicate(asociacion -> criterio.isBlank()
+                || contiene(asociacion.getNombre(), criterio)
+                || contiene(asociacion.getDireccion(), criterio)
+                || contiene(asociacion.getContacto(), criterio));
+        etiquetaEstado.setText(asociaciones.size() + " asociación(es)");
+    }
+
+    private boolean contiene(String valor, String criterio) {
+        return valor(valor).toLowerCase(Locale.ROOT).contains(criterio);
     }
 
     private <T> void ejecutar(java.util.concurrent.Callable<T> llamada, java.util.function.Consumer<T> exito) {

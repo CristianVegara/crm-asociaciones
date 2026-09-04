@@ -6,6 +6,8 @@
       spacing="12" styleClass="content-area">
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Asociaciones" styleClass="screen-title"/>
+        <TextField fx:id="campoBusqueda" promptText="Buscar por nombre, dirección o contacto..." HBox.hgrow="ALWAYS"/>
+        <Button text="Buscar" onAction="#onBuscarClick"/>
         <Button text="Nueva" onAction="#onNuevaClick" styleClass="button-primary"/>
         <Button text="Editar seleccionada" onAction="#onEditarClick"/>
         <Button text="Actualizar" onAction="#onActualizarClick"/>

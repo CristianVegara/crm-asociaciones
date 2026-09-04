@@ -15,6 +15,17 @@ crm-asociaciones/
 
 ## Progreso (según apartado 9 del plan)
 
+### Estado funcional actualizado (04/09/2026)
+
+El cliente permite editar pacientes conservando su expediente, buscar asociaciones por
+nombre/dirección/contacto, editar tipos y subservicios del catálogo y gestionar visualmente
+el estado de trabajadores. La pestaña de Auditoría permanece oculta temporalmente, aunque se
+conservan su backend e histórico.
+
+Pendientes priorizados: ampliar asociaciones, añadir vistas y filtros avanzados a la Agenda,
+activar/desactivar elementos del Catálogo y continuar con las medidas RGPD operativas. Las
+copias de seguridad quedan fuera del alcance y serán gestionadas por un proveedor externo.
+
 - [x] 1. Modelo de datos + backend con CRUD básico de Trabajador/Rol/Permiso y Paciente/Asociación
 - [x] 2. Login + autorización basada en permisos (Spring Security/JWT)
 - [x] 3. Cliente JavaFX: login + listado de pacientes conectado de verdad

@@ -43,6 +43,11 @@
 >
 > **Revisión 14 (04/09/2026)**: el módulo de Auditoría queda desactivado temporalmente y
 > su pestaña se oculta en el cliente, conservando el backend y el histórico.
+>
+> **Revisión 15 (04/09/2026)**: se completa la operativa de mantenimiento desde el cliente:
+> edición de pacientes conservando el expediente, búsqueda de asociaciones por varios campos,
+> edición de tipos y subservicios del catálogo, y mejora visual de estados y selección en
+> trabajadores. La auditoría continúa oculta y las copias de seguridad siguen fuera del alcance.
 
 ## 1. Qué era el prototipo original
 
@@ -61,14 +66,13 @@ OFICINA DE LA ASOCIACIÓN
                     ▼
         SERVIDOR FÍSICO (en la propia oficina)
         ├── Backend API — Spring Boot
-        ├── Base de datos — PostgreSQL/MySQL
-        └── Backups locales
+        └── Base de datos — PostgreSQL/MySQL
 ```
 
 - **Cliente**: nativo en **Java (JavaFX)**, sin motor de navegador ni Tailwind. Refuerza el perfil de Java backend usado en la búsqueda de empleo.
 - **Backend**: **Spring Boot** (Spring Data JPA, Spring Security + JWT).
 - **Servidor**: físico, en la propia oficina de la asociación (no en la Raspberry Pi personal ni en la nube) — datos sensibles (salud, discapacidad) sujetos a RGPD.
-- **Backups**: automáticos (`pg_dump` + cron) en disco externo o NAS.
+- **Copias de seguridad**: fuera del alcance del CRM; las gestionará un proveedor externo.
 
 ## 3. UX tipo CRM, no wizard
 
@@ -292,3 +296,24 @@ Además del alta contextual desde la ficha del paciente, el cliente JavaFX inclu
 un módulo global de **Planes**. Permite listar y filtrar planes por paciente,
 servicio y estado, crear un plan seleccionando el paciente y cancelar planes
 manteniendo el histórico. El acceso requiere `CREAR_PLAN_SERVICIO`.
+
+## 15. Estado actual y siguientes mejoras
+
+### Implementado recientemente
+
+- **Pacientes**: edición desde el listado mediante `PUT /pacientes/{id}`, conservando el expediente.
+- **Asociaciones**: búsqueda dinámica por nombre, dirección o contacto, además de alta y edición.
+- **Catálogo**: edición de tipos de servicio y subservicios mediante los endpoints existentes.
+- **Trabajadores**: botón de estado condicionado a la selección y estados con estilo corporativo.
+- **Auditoría**: pestaña oculta por decisión funcional; backend e histórico conservados.
+
+### Pendiente, en orden recomendado
+
+1. Ampliar asociaciones con datos fiscales, contactos, estadísticas y relación de pacientes.
+2. Añadir vistas y filtros avanzados a la Agenda cuando el contrato REST exponga esos datos.
+3. Añadir activación/desactivación, iconos/colores y prevención de duplicados en el Catálogo.
+4. Continuar con RGPD: consentimiento, retención/anonimización, exportaciones, HTTPS y secretos.
+5. Reactivar Auditoría únicamente cuando se solicite.
+6. Validar manualmente el DMG y el arranque automático en el entorno real.
+
+Las copias de seguridad quedan fuera del alcance y serán gestionadas por un proveedor externo.

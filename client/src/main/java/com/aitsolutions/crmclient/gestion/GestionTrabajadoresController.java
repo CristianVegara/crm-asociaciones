@@ -27,6 +27,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -58,6 +59,8 @@ public class GestionTrabajadoresController {
     private TableColumn<TrabajadorResponse, String> columnaTrabRol;
     @FXML
     private TableColumn<TrabajadorResponse, String> columnaTrabActivo;
+    @FXML
+    private Button botonEstadoTrabajador;
     @FXML
     private TextField campoTrabNombre;
     @FXML
@@ -105,6 +108,9 @@ public class GestionTrabajadoresController {
 
         tablaRoles.getSelectionModel().selectedItemProperty()
                 .addListener((obs, anterior, nuevo) -> actualizarCajaPermisos(nuevo));
+        botonEstadoTrabajador.setDisable(true);
+        tablaTrabajadores.getSelectionModel().selectedItemProperty()
+                .addListener((obs, anterior, nuevo) -> botonEstadoTrabajador.setDisable(nuevo == null));
     }
 
     private void configurarColumnas() {
@@ -113,6 +119,17 @@ public class GestionTrabajadoresController {
         columnaTrabUsuario.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getUsuario()));
         columnaTrabRol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getRolNombre()));
         columnaTrabActivo.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().isActivo() ? "Sí" : "No"));
+        columnaTrabActivo.setCellFactory(columna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String estado, boolean empty) {
+                super.updateItem(estado, empty);
+                setText(empty ? null : estado);
+                getStyleClass().removeIf(style -> style.startsWith("estado-"));
+                if (!empty && estado != null) {
+                    getStyleClass().add("estado-" + ("Sí".equals(estado) ? "verde" : "cancelada"));
+                }
+            }
+        });
 
         columnaRolNombre.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getNombre()));
         columnaRolDescripcion.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getDescripcion()));

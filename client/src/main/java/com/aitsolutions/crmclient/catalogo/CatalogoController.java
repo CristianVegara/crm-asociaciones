@@ -34,9 +34,49 @@ public class CatalogoController {
         if (tipo == null || campoSubservicio.getText().isBlank()) {
             etiquetaEstado.setText("Selecciona un servicio e indica el subservicio"); return;
         }
+
         ejecutar(() -> ApiClient.getInstance().post("/tipos-servicio/" + tipo.getId() + "/subservicios",
                 new SubServicioRequest(campoSubservicio.getText().trim()), TipoServicioResponse.class, true),
                 r -> { campoSubservicio.clear(); etiquetaEstado.setText("Subservicio creado"); cargarTipos(); });
+    }
+
+    @FXML private void onEditarTipoClick() {
+        TipoServicioResponse tipo = comboTipo.getValue();
+        if (tipo == null) {
+            etiquetaEstado.setText("Selecciona un tipo de servicio");
+            return;
+        }
+        TextInputDialog dialogo = new TextInputDialog(tipo.getNombre());
+        dialogo.setTitle("Editar tipo de servicio");
+        dialogo.setHeaderText("Renombrar servicio");
+        dialogo.setContentText("Nombre:");
+        dialogo.showAndWait().map(String::trim).filter(nombre -> !nombre.isBlank())
+                .ifPresent(nombre -> ejecutar(() -> ApiClient.getInstance().put(
+                        "/tipos-servicio/" + tipo.getId(), new TipoServicioRequest(nombre),
+                        TipoServicioResponse.class), respuesta -> {
+                    etiquetaEstado.setText("Servicio actualizado");
+                    cargarTipos();
+                }));
+    }
+
+    @FXML private void onEditarSubservicioClick() {
+        SubServicioResponse subservicio = listaSubservicios.getSelectionModel().getSelectedItem();
+        TipoServicioResponse tipo = comboTipo.getValue();
+        if (tipo == null || subservicio == null) {
+            etiquetaEstado.setText("Selecciona un subservicio");
+            return;
+        }
+        TextInputDialog dialogo = new TextInputDialog(subservicio.getNombre());
+        dialogo.setTitle("Editar subservicio");
+        dialogo.setHeaderText("Renombrar subservicio");
+        dialogo.setContentText("Nombre:");
+        dialogo.showAndWait().map(String::trim).filter(nombre -> !nombre.isBlank())
+                .ifPresent(nombre -> ejecutar(() -> ApiClient.getInstance().put(
+                        "/subservicios/" + subservicio.getId(), new SubServicioRequest(nombre),
+                        SubServicioResponse.class), respuesta -> {
+                    etiquetaEstado.setText("Subservicio actualizado");
+                    cargarTipos();
+                }));
     }
 
     private void cargarTipos() {

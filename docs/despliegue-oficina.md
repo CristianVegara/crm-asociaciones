@@ -13,6 +13,11 @@
 3. Arrancar el backend con `cd backend && mvn spring-boot:run` o instalarlo como servicio.
 4. Comprobar desde cada puesto que `http://IP-DEL-SERVIDOR:8080/auth/login` es accesible.
 
+Para poblar un entorno de demostración con datos del último año, ejecutar
+`docs/seed-datos-completos.sql` después de arrancar el backend por primera vez.
+Las cuentas generadas usan la contraseña de prueba `admin1234` y no deben utilizarse
+en producción.
+
 ### Empaquetar e instalar el backend
 
 En el servidor, con Java 17 o superior:
@@ -35,6 +40,20 @@ sudo systemctl status crm-asociaciones-backend
 ```
 
 No incluir credenciales en el repositorio ni en los instaladores de los clientes.
+
+En un servidor macOS, usar el servicio de arranque incluido:
+
+```bash
+sudo mkdir -p /opt/crm-asociaciones
+sudo cp backend/target/distribution/crm-asociaciones-backend.jar /opt/crm-asociaciones/
+sudo cp docs/com.crm.asociaciones.backend.plist /Library/LaunchDaemons/
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.crm.asociaciones.backend.plist
+sudo launchctl enable system/com.crm.asociaciones.backend
+sudo launchctl kickstart -k system/com.crm.asociaciones.backend
+```
+
+El backend arrancará automáticamente al iniciar el servidor y se reiniciará si falla.
+Si el JDK no está en `/usr/bin/java`, editar `ProgramArguments` del plist antes de instalarlo.
 
 ## Puestos macOS Apple Silicon
 
@@ -76,6 +95,8 @@ api.base-url=http://IP-DEL-SERVIDOR:8080
 ```
 
 El instalador incluye el runtime de Java y no requiere instalar Java aparte.
+Una vez configurado este archivo, el cliente se conecta automáticamente al backend
+compartido; no es necesario iniciar Spring Boot en cada puesto.
 
 ## Comprobación por puesto
 

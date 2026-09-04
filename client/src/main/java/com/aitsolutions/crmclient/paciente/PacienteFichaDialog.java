@@ -133,7 +133,9 @@ public final class PacienteFichaDialog {
                 texto(d.getValue().getFechaInicio()) + " → " + texto(d.getValue().getFechaFin())));
         TableColumn<PlanServicioResponse, String> dias = new TableColumn<>("Días");
         dias.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(
-                d.getValue().getDiasSemana() == null ? "" : String.join(", ", d.getValue().getDiasSemana())));
+                d.getValue().getDiasSemana() == null ? "" : d.getValue().getDiasSemana().stream()
+                        .map(PacienteFichaDialog::nombreDiaCompleto)
+                        .collect(java.util.stream.Collectors.joining(", "))));
         TableColumn<PlanServicioResponse, String> estadoPlan = new TableColumn<>("Estado");
         estadoPlan.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(d.getValue().getEstado()));
         tablaPlanes.getColumns().addAll(plan, periodo, dias, estadoPlan);
@@ -423,6 +425,18 @@ public final class PacienteFichaDialog {
             case FRIDAY -> "V";
             case SATURDAY -> "S";
             case SUNDAY -> "D";
+        };
+    }
+
+    private static String nombreDiaCompleto(String dia) {
+        return switch (DayOfWeek.valueOf(dia)) {
+            case MONDAY -> "Lunes";
+            case TUESDAY -> "Martes";
+            case WEDNESDAY -> "Miércoles";
+            case THURSDAY -> "Jueves";
+            case FRIDAY -> "Viernes";
+            case SATURDAY -> "Sábado";
+            case SUNDAY -> "Domingo";
         };
     }
 }

@@ -103,7 +103,7 @@
 
 .content-area {
     -fx-background-color: #f3f6fa;
-    -fx-padding: 22;
+    -fx-padding: 14;
 }
 
 /* ---------- Tablas ---------- */
@@ -142,6 +142,12 @@
 
 .table-row-cell:selected .text {
     -fx-fill: #102a43;
+}
+
+.kpi-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1677a8;
 }
 
 /* ---------- Botones de acción ---------- */

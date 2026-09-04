@@ -16,16 +16,16 @@
         <VBox spacing="10" prefWidth="300" styleClass="card">
             <Label text="Tipos de servicio disponibles" styleClass="card-title"/>
             <ComboBox fx:id="comboTipo" promptText="Selecciona un tipo" maxWidth="Infinity"/>
-            <Button text="Editar tipo seleccionado" onAction="#onEditarTipoClick"/>
+            <Button fx:id="botonEditarTipo" text="Editar tipo seleccionado" onAction="#onEditarTipoClick"/>
         </VBox>
         <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
             <Label text="Subservicios del tipo seleccionado" styleClass="card-title"/>
             <ListView fx:id="listaSubservicios" VBox.vgrow="ALWAYS"/>
             <HBox spacing="8">
                 <TextField fx:id="campoSubservicio" promptText="Nuevo subservicio" HBox.hgrow="ALWAYS"/>
-                <Button text="Añadir" onAction="#onCrearSubservicioClick" styleClass="button-primary"/>
+                <Button fx:id="botonCrearSubservicio" text="Añadir" onAction="#onCrearSubservicioClick" styleClass="button-primary"/>
             </HBox>
-            <Button text="Editar subservicio seleccionado" onAction="#onEditarSubservicioClick"/>
+            <Button fx:id="botonEditarSubservicio" text="Editar subservicio seleccionado" onAction="#onEditarSubservicioClick"/>
         </VBox>
     </HBox>
 </VBox>

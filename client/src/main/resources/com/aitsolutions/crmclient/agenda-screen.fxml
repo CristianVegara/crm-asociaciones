@@ -22,6 +22,7 @@
                 <TableColumn fx:id="columnaFecha" text="Fecha" prefWidth="120"/>
                 <TableColumn fx:id="columnaPaciente" text="Paciente" prefWidth="220"/>
                 <TableColumn fx:id="columnaServicio" text="Servicio" prefWidth="180"/>
+                <TableColumn fx:id="columnaSubservicio" text="Subservicio" prefWidth="180"/>
                 <TableColumn fx:id="columnaEstado" text="Estado" prefWidth="120"/>
             </columns>
         </TableView>

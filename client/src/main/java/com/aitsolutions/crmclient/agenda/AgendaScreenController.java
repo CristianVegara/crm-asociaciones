@@ -4,12 +4,14 @@ import com.aitsolutions.crmclient.dto.MarcarAsistenciaRequest;
 import com.aitsolutions.crmclient.dto.SesionAgendaResponse;
 import com.aitsolutions.crmclient.http.ApiClient;
 import com.aitsolutions.crmclient.http.ApiException;
+import com.aitsolutions.crmclient.paciente.PacienteFichaDialog;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Window;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class AgendaScreenController {
     @FXML private TableColumn<SesionAgendaResponse, String> columnaFecha;
     @FXML private TableColumn<SesionAgendaResponse, String> columnaPaciente;
     @FXML private TableColumn<SesionAgendaResponse, String> columnaServicio;
+    @FXML private TableColumn<SesionAgendaResponse, String> columnaSubservicio;
     @FXML private TableColumn<SesionAgendaResponse, String> columnaEstado;
     @FXML private Label etiquetaEstado;
 
@@ -43,6 +46,8 @@ public class AgendaScreenController {
         columnaFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFechaPrevista()));
         columnaPaciente.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPacienteNombreCompleto()));
         columnaServicio.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTipoServicioNombre()));
+        columnaSubservicio.setCellValueFactory(c -> new SimpleStringProperty(
+                c.getValue().getSubServicioNombre() == null ? "" : c.getValue().getSubServicioNombre()));
         columnaEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstado()));
         columnaEstado.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(String estado, boolean empty) {
@@ -56,12 +61,25 @@ public class AgendaScreenController {
             TableRow<SesionAgendaResponse> fila = new TableRow<>();
             MenuItem marcar = new MenuItem("Marcar estado...");
             marcar.setOnAction(e -> mostrarMarcado(fila.getItem()));
-            ContextMenu menu = new ContextMenu(marcar);
+            MenuItem ficha = new MenuItem("Abrir ficha del paciente");
+            ficha.setOnAction(e -> mostrarFicha(fila.getItem()));
+            ContextMenu menu = new ContextMenu(marcar, ficha);
             fila.contextMenuProperty().bind(
                     javafx.beans.binding.Bindings.when(fila.emptyProperty())
                             .then((ContextMenu) null).otherwise(menu));
             return fila;
         });
+    }
+
+    private void mostrarFicha(SesionAgendaResponse sesion) {
+        if (sesion == null || sesion.getPacienteId() == null) {
+            etiquetaEstado.setText("La sesión no tiene paciente asociado");
+            return;
+        }
+        Window ventana = tablaSesiones.getScene() == null
+                ? null : tablaSesiones.getScene().getWindow();
+        PacienteFichaDialog.mostrar(sesion.getPacienteId(),
+                sesion.getPacienteNombreCompleto(), ventana);
     }
 
     @FXML private void onBuscarClick() { cargarSesiones(); }

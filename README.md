@@ -19,8 +19,9 @@ crm-asociaciones/
 
 El cliente permite editar pacientes conservando su expediente, buscar asociaciones por
 nombre/dirección/contacto, editar tipos y subservicios del catálogo y gestionar visualmente
-el estado de trabajadores. La pestaña de Auditoría permanece oculta temporalmente, aunque se
-conservan su backend e histórico.
+el estado de trabajadores. La Agenda incluye vistas diaria/semanal/mensual, subservicio visible
+y acceso a la ficha del paciente. El Catálogo identifica elementos inactivos y limita acciones.
+La pestaña de Auditoría permanece oculta temporalmente, aunque se conservan su backend e histórico.
 
 Pendientes priorizados: ampliar asociaciones, añadir vistas y filtros avanzados a la Agenda,
 activar/desactivar elementos del Catálogo y continuar con las medidas RGPD operativas. Las

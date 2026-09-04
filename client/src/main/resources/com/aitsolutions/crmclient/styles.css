@@ -153,7 +153,21 @@
 /* ---------- Botones de acción ---------- */
 
 .button {
+    -fx-background-color: #1677a8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 17 9 17;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
     -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #105b83;
+}
+
+.button:pressed {
+    -fx-background-color: #0b4868;
 }
 
 .button-primary {
@@ -189,6 +203,38 @@
     -fx-background-color: #fdecea;
 }
 
+/* La navegación mantiene su tratamiento específico sobre el botón de acción global. */
+.nav-bar .nav-button,
+.nav-bar .nav-button-secondary {
+    -fx-background-color: transparent;
+    -fx-font-weight: normal;
+    -fx-padding: 8 14 8 14;
+}
+
+.nav-bar .nav-button {
+    -fx-text-fill: #d9e8f5;
+}
+
+.nav-bar .nav-button:hover {
+    -fx-background-color: #1f4f73;
+    -fx-text-fill: white;
+}
+
+.nav-bar .nav-button-active {
+    -fx-background-color: #1677a8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.nav-bar .nav-button-secondary {
+    -fx-text-fill: #e8a4a4;
+}
+
+.nav-bar .nav-button-secondary:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff6b6b;
+}
+
 /* ---------- Formularios de login ---------- */
 
 .login-card {
@@ -213,10 +259,6 @@
     -fx-effect: dropshadow(gaussian, rgba(22,119,168,0.2), 7, 0.2, 0, 0);
 }
 
-.button {
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-}
 
 .error-label {
     -fx-text-fill: #c0392b;

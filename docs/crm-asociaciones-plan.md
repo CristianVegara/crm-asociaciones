@@ -48,6 +48,10 @@
 > edición de pacientes conservando el expediente, búsqueda de asociaciones por varios campos,
 > edición de tipos y subservicios del catálogo, y mejora visual de estados y selección en
 > trabajadores. La auditoría continúa oculta y las copias de seguridad siguen fuera del alcance.
+>
+> **Revisión 16 (04/09/2026)**: la Agenda incorpora vistas diaria, semanal y mensual, acceso
+> directo a la ficha del paciente desde cada sesión y visualización del subservicio.
+> El Catálogo muestra estados activos/inactivos y bloquea altas o ediciones incompatibles.
 
 ## 1. Qué era el prototipo original
 
@@ -305,6 +309,9 @@ manteniendo el histórico. El acceso requiere `CREAR_PLAN_SERVICIO`.
 - **Asociaciones**: búsqueda dinámica por nombre, dirección o contacto, además de alta y edición.
 - **Catálogo**: edición de tipos de servicio y subservicios mediante los endpoints existentes.
 - **Trabajadores**: botón de estado condicionado a la selección y estados con estilo corporativo.
+- **Agenda**: vistas diaria, semanal y mensual, columna de subservicio y acceso directo a la
+  ficha del paciente desde el menú contextual de cada sesión.
+- **Catálogo**: estados activo/inactivo visibles y acciones condicionadas a dichos estados.
 - **Auditoría**: pestaña oculta por decisión funcional; backend e histórico conservados.
 
 ### Pendiente, en orden recomendado

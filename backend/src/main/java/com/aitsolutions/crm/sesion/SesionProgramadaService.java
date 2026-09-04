@@ -1,5 +1,6 @@
 package com.aitsolutions.crm.sesion;
 
+import com.aitsolutions.crm.auditoria.AuditoriaService;
 import com.aitsolutions.crm.auth.UsuarioAutenticadoService;
 import com.aitsolutions.crm.common.ResourceNotFoundException;
 import com.aitsolutions.crm.sancion.SancionService;
@@ -20,15 +21,18 @@ public class SesionProgramadaService {
     private final UsuarioAutenticadoService usuarioAutenticadoService;
     private final SancionService sancionService;
     private final AutorizacionServicioService autorizacionServicioService;
+    private final AuditoriaService auditoriaService;
 
     public SesionProgramadaService(SesionProgramadaRepository sesionProgramadaRepository,
                                     UsuarioAutenticadoService usuarioAutenticadoService,
                                     SancionService sancionService,
-                                    AutorizacionServicioService autorizacionServicioService) {
+                                    AutorizacionServicioService autorizacionServicioService,
+                                    AuditoriaService auditoriaService) {
         this.sesionProgramadaRepository = sesionProgramadaRepository;
         this.usuarioAutenticadoService = usuarioAutenticadoService;
         this.sancionService = sancionService;
         this.autorizacionServicioService = autorizacionServicioService;
+        this.auditoriaService = auditoriaService;
     }
 
     // Vista de agenda para recepcion (GET /sesiones?planServicioId=&desde=&hasta=&estado=).
@@ -69,6 +73,7 @@ public class SesionProgramadaService {
 
         sesion = sesionProgramadaRepository.save(sesion);
         sancionService.evaluarReglasAutomaticas(sesion);
+        auditoriaService.registrar("SESION_ESTADO", "Sesión " + sesion.getId() + ": " + nuevoEstado);
 
         return sesion;
     }
@@ -91,5 +96,6 @@ public class SesionProgramadaService {
 
         sesion.setEstado(EstadoSesion.CANCELADA);
         sesionProgramadaRepository.save(sesion);
+        auditoriaService.registrar("SESION_CANCELADA", "Sesión " + sesion.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.aitsolutions.crm.sancion;
 
+import com.aitsolutions.crm.auditoria.AuditoriaService;
 import com.aitsolutions.crm.auth.UsuarioAutenticadoService;
 import com.aitsolutions.crm.paciente.Paciente;
 import com.aitsolutions.crm.paciente.PacienteService;
@@ -31,19 +32,22 @@ public class SancionService {
     private final PlanServicioService planServicioService;
     private final UsuarioAutenticadoService usuarioAutenticadoService;
     private final AutorizacionServicioService autorizacionServicioService;
+    private final AuditoriaService auditoriaService;
 
     public SancionService(SancionRepository sancionRepository,
                            SesionProgramadaRepository sesionProgramadaRepository,
                            PacienteService pacienteService,
                            PlanServicioService planServicioService,
                            UsuarioAutenticadoService usuarioAutenticadoService,
-                           AutorizacionServicioService autorizacionServicioService) {
+                           AutorizacionServicioService autorizacionServicioService,
+                           AuditoriaService auditoriaService) {
         this.sancionRepository = sancionRepository;
         this.sesionProgramadaRepository = sesionProgramadaRepository;
         this.pacienteService = pacienteService;
         this.planServicioService = planServicioService;
         this.usuarioAutenticadoService = usuarioAutenticadoService;
         this.autorizacionServicioService = autorizacionServicioService;
+        this.auditoriaService = auditoriaService;
     }
 
     public List<Sancion> listarPorPaciente(Long pacienteId) {
@@ -72,7 +76,9 @@ public class SancionService {
 
         Sancion sancion = new Sancion(paciente, planServicio, request.getTipo(),
                 request.getMotivo(), aplicadaPor, false);
-        return sancionRepository.save(sancion);
+        Sancion guardada = sancionRepository.save(sancion);
+        auditoriaService.registrar("SANCION_ALTA", "Sanción " + guardada.getId() + ", paciente " + paciente.getId());
+        return guardada;
     }
 
     /**
@@ -104,5 +110,6 @@ public class SancionService {
         Sancion sancion = new Sancion(plan.getPaciente(), plan, TipoSancion.SUSPENSION_TEMPORAL,
                 motivo, aplicadaPor, true);
         sancionRepository.save(sancion);
+        auditoriaService.registrar("SANCION_AUTOMATICA", "Plan " + plan.getId());
     }
 }

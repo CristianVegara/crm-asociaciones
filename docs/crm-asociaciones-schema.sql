@@ -76,6 +76,8 @@ CREATE TABLE IF NOT EXISTS auditoria_evento (
     ruta VARCHAR(255) NOT NULL,
     estado_http INT NOT NULL,
     direccion_ip VARCHAR(45) NULL,
+    accion VARCHAR(80) NULL,
+    detalle VARCHAR(500) NULL,
     CONSTRAINT pk_auditoria_evento PRIMARY KEY (id),
     INDEX idx_auditoria_fecha (fecha),
     INDEX idx_auditoria_usuario (usuario)

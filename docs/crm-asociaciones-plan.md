@@ -31,6 +31,12 @@
 >
 > **Revisión 10 (04/09/2026)**: se incorpora auditoría técnica de accesos y operaciones HTTP,
 > consultable únicamente con `GESTIONAR_TRABAJADORES`; no se almacenan credenciales ni tokens.
+>
+> **Revisión 11 (04/09/2026)**: se añade la pantalla JavaFX de auditoría con filtrado por
+> usuario, método y ruta.
+>
+> **Revisión 12 (04/09/2026)**: la auditoría incorpora eventos de negocio para altas,
+> ediciones, cambios de estado y cancelaciones de pacientes, planes, sesiones y sanciones.
 
 ## 1. Qué era el prototipo original
 

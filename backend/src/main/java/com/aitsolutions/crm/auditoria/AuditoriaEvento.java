@@ -31,6 +31,12 @@ public class AuditoriaEvento {
     @Column(length = 45)
     private String direccionIp;
 
+    @Column(length = 80)
+    private String accion;
+
+    @Column(length = 500)
+    private String detalle;
+
     protected AuditoriaEvento() {
     }
 
@@ -43,6 +49,13 @@ public class AuditoriaEvento {
         this.direccionIp = direccionIp;
     }
 
+    public static AuditoriaEvento deNegocio(String usuario, String accion, String detalle) {
+        AuditoriaEvento evento = new AuditoriaEvento(usuario, "BUSINESS", accion, 200, null);
+        evento.accion = accion;
+        evento.detalle = detalle;
+        return evento;
+    }
+
     public Long getId() { return id; }
     public LocalDateTime getFecha() { return fecha; }
     public String getUsuario() { return usuario; }
@@ -50,4 +63,6 @@ public class AuditoriaEvento {
     public String getRuta() { return ruta; }
     public int getEstadoHttp() { return estadoHttp; }
     public String getDireccionIp() { return direccionIp; }
+    public String getAccion() { return accion; }
+    public String getDetalle() { return detalle; }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.auditoria.AuditoriaController">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="screen-header">
+            <Label text="Auditoría" styleClass="screen-title"/>
+            <TextField fx:id="campoFiltro" promptText="Filtrar por usuario, método o ruta" prefWidth="300"/>
+            <Button text="Actualizar" onAction="#onActualizarClick" styleClass="button-primary"/>
+            <Label fx:id="etiquetaEstado" styleClass="status-label"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tabla">
+            <columns>
+                <TableColumn fx:id="columnaFecha" text="Fecha" prefWidth="175"/>
+                <TableColumn fx:id="columnaUsuario" text="Usuario" prefWidth="140"/>
+                <TableColumn fx:id="columnaMetodo" text="Método" prefWidth="80"/>
+                <TableColumn fx:id="columnaRuta" text="Ruta" prefWidth="340"/>
+                <TableColumn fx:id="columnaEstado" text="HTTP" prefWidth="70"/>
+                <TableColumn fx:id="columnaIp" text="IP" prefWidth="130"/>
+                <TableColumn fx:id="columnaAccion" text="Acción" prefWidth="150"/>
+                <TableColumn fx:id="columnaDetalle" text="Detalle" prefWidth="220"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

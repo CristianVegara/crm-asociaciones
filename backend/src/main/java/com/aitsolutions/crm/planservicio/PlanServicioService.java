@@ -117,6 +117,8 @@ public class PlanServicioService {
         // Al finalizar un plan ya no debe quedar ninguna sesion futura pendiente esperando marcado.
         if (nuevoEstado == EstadoPlanServicio.FINALIZADO) {
             eliminarSesionesFuturasPendientes(plan);
+        } else if (nuevoEstado == EstadoPlanServicio.CANCELADO) {
+            cancelarSesionesFuturasPendientes(plan);
         }
         return plan;
     }
@@ -216,5 +218,12 @@ public class PlanServicioService {
         List<SesionProgramada> futurasPendientes = sesionProgramadaRepository
                 .findByPlanServicioAndEstadoAndFechaPrevistaGreaterThanEqual(plan, EstadoSesion.PENDIENTE, LocalDate.now());
         sesionProgramadaRepository.deleteAll(futurasPendientes);
+    }
+
+    private void cancelarSesionesFuturasPendientes(PlanServicio plan) {
+        List<SesionProgramada> futurasPendientes = sesionProgramadaRepository
+                .findByPlanServicioAndEstadoAndFechaPrevistaGreaterThanEqual(plan, EstadoSesion.PENDIENTE, LocalDate.now());
+        futurasPendientes.forEach(sesion -> sesion.setEstado(EstadoSesion.CANCELADA));
+        sesionProgramadaRepository.saveAll(futurasPendientes);
     }
 }

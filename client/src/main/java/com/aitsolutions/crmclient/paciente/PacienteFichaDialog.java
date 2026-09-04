@@ -14,6 +14,7 @@ import com.aitsolutions.crmclient.http.ApiClient;
 import com.aitsolutions.crmclient.http.ApiException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -49,6 +50,9 @@ public final class PacienteFichaDialog {
     private final TableView<SesionProgramadaResponse> tablaSesiones = new TableView<>();
     private final TableView<SancionResponse> tablaSanciones = new TableView<>();
     private final ComboBox<String> comboEstadoSesion = new ComboBox<>();
+    private final ComboBox<String> comboFiltroEstadoSesion = new ComboBox<>();
+    private final FilteredList<SesionProgramadaResponse> sesionesFiltradas =
+            new FilteredList<>(FXCollections.observableArrayList());
     private final Button borrarSesion = new Button("Borrar sesión pendiente");
     private final Button marcarSesion = new Button("Marcar asistencia");
     private final Map<Long, String> nombrePlanPorId = new HashMap<>();
@@ -80,6 +84,13 @@ public final class PacienteFichaDialog {
         configurarTablas();
         comboEstadoSesion.setItems(FXCollections.observableArrayList("VERDE", "NARANJA", "ROJO", "AMARILLO"));
         comboEstadoSesion.setPromptText("Nuevo estado");
+        comboFiltroEstadoSesion.setItems(FXCollections.observableArrayList(
+                "Todos", "PENDIENTE", "VERDE", "NARANJA", "ROJO", "AMARILLO", "CANCELADA"));
+        comboFiltroEstadoSesion.setValue("Todos");
+        comboFiltroEstadoSesion.setPromptText("Filtrar estado");
+        comboFiltroEstadoSesion.valueProperty().addListener((obs, anterior, nuevo) ->
+                sesionesFiltradas.setPredicate(sesion -> "Todos".equals(nuevo)
+                        || nuevo.equals(sesion.getEstado())));
         borrarSesion.setDisable(true);
         marcarSesion.setDisable(true);
         borrarSesion.setOnAction(e -> borrarSesionSeleccionada());
@@ -96,7 +107,9 @@ public final class PacienteFichaDialog {
         cancelarPlan.setOnAction(e -> cancelarPlanSeleccionado());
         HBox accionesPlan = new HBox(8, nuevoPlan, editarPlan, cancelarPlan);
         VBox planes = new VBox(8, accionesPlan, tablaPlanes);
-        VBox sesiones = new VBox(8, new HBox(8, comboEstadoSesion, marcarSesion, borrarSesion), tablaSesiones);
+        VBox sesiones = new VBox(8,
+                new HBox(8, comboFiltroEstadoSesion, comboEstadoSesion, marcarSesion, borrarSesion),
+                tablaSesiones);
         VBox sanciones = new VBox(tablaSanciones);
         TabPane pestañas = new TabPane(
                 new Tab("Planes", planes),
@@ -133,6 +146,14 @@ public final class PacienteFichaDialog {
                 nombrePlanPorId.getOrDefault(d.getValue().getPlanServicioId(), "Plan " + d.getValue().getPlanServicioId())));
         TableColumn<SesionProgramadaResponse, String> sesionEstado = new TableColumn<>("Estado");
         sesionEstado.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(d.getValue().getEstado()));
+        sesionEstado.setCellFactory(columna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String valor, boolean vacio) {
+                super.updateItem(valor, vacio);
+                setText(null);
+                setGraphic(vacio || valor == null ? null : crearEtiquetaEstado(valor));
+            }
+        });
         tablaSesiones.getColumns().addAll(sesionFecha, sesionPlan, sesionEstado);
         tablaSesiones.setPrefHeight(220);
 
@@ -140,6 +161,14 @@ public final class PacienteFichaDialog {
         sancionFecha.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(String.valueOf(d.getValue().getFecha())));
         TableColumn<SancionResponse, String> sancionTipo = new TableColumn<>("Tipo");
         sancionTipo.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(String.valueOf(d.getValue().getTipo())));
+        sancionTipo.setCellFactory(columna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String valor, boolean vacio) {
+                super.updateItem(valor, vacio);
+                setText(null);
+                setGraphic(vacio || valor == null ? null : crearEtiquetaSancion(valor));
+            }
+        });
         TableColumn<SancionResponse, String> sancionMotivo = new TableColumn<>("Motivo");
         sancionMotivo.setCellValueFactory(d -> new javafx.beans.property.SimpleStringProperty(d.getValue().getMotivo()));
         tablaSanciones.getColumns().addAll(sancionFecha, sancionTipo, sancionMotivo);
@@ -167,7 +196,8 @@ public final class PacienteFichaDialog {
         tablaPlanes.setItems(FXCollections.observableArrayList(detalle.getPlanes()));
         List<SesionProgramadaResponse> sesiones = new ArrayList<>();
         detalle.getPlanes().forEach(p -> sesiones.addAll(p.getSesiones()));
-        tablaSesiones.setItems(FXCollections.observableArrayList(sesiones));
+        sesionesFiltradas.setAll(sesiones);
+        tablaSesiones.setItems(sesionesFiltradas);
         tablaSanciones.setItems(FXCollections.observableArrayList(detalle.getSanciones()));
         estado.setText("Ficha actualizada");
         actualizarBotonesPlan(tablaPlanes.getSelectionModel().getSelectedItem());
@@ -365,6 +395,18 @@ public final class PacienteFichaDialog {
     }
 
     private static String texto(String valor) { return valor == null ? "—" : valor; }
+
+    private static Label crearEtiquetaEstado(String valor) {
+        Label etiqueta = new Label(valor);
+        etiqueta.getStyleClass().add("estado-" + valor.toLowerCase());
+        return etiqueta;
+    }
+
+    private static Label crearEtiquetaSancion(String valor) {
+        Label etiqueta = new Label(valor.replace('_', ' '));
+        etiqueta.getStyleClass().add("sancion-" + valor.toLowerCase());
+        return etiqueta;
+    }
     private static LocalDate parseDate(String valor) {
         return valor == null ? null : LocalDate.parse(valor);
     }

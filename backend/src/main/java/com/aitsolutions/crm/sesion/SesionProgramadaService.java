@@ -75,8 +75,7 @@ public class SesionProgramadaService {
 
     /**
      * Borra una sesion puntual sin afectar al resto del plan (apartado 11 del plan).
-     * Solo se permite si sigue PENDIENTE: una sesion ya marcada es historial de asistencia
-     * o de una falta, y borrarla perderia ese registro.
+     * La sesión se conserva como CANCELADA para mantener la trazabilidad del calendario.
      */
     public void eliminar(Long id) {
         SesionProgramada sesion = sesionProgramadaRepository.findById(id)
@@ -87,9 +86,10 @@ public class SesionProgramadaService {
 
         if (sesion.getEstado() != EstadoSesion.PENDIENTE) {
             throw new IllegalArgumentException(
-                    "No se puede eliminar una sesión ya marcada (" + sesion.getEstado() + "); es parte del historial del paciente");
+                    "Solo se puede cancelar una sesión pendiente; las sesiones registradas forman parte del historial");
         }
 
-        sesionProgramadaRepository.delete(sesion);
+        sesion.setEstado(EstadoSesion.CANCELADA);
+        sesionProgramadaRepository.save(sesion);
     }
 }

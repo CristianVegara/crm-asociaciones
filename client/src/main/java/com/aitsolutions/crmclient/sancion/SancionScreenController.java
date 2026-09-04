@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -61,6 +62,20 @@ public class SancionScreenController {
     private void initialize() {
         columnaFecha.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getFecha()));
         columnaTipo.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getTipo().toString()));
+        columnaTipo.setCellFactory(columna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String valor, boolean vacio) {
+                super.updateItem(valor, vacio);
+                setText(null);
+                if (vacio || valor == null) {
+                    setGraphic(null);
+                    return;
+                }
+                Label etiqueta = new Label(valor.replace('_', ' '));
+                etiqueta.getStyleClass().add("sancion-" + valor.toLowerCase());
+                setGraphic(etiqueta);
+            }
+        });
         columnaMotivo.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getMotivo()));
         columnaAplicadaPor.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getAplicadaPorNombre()));
         columnaAutomatica.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().isAutomatica() ? "Sí" : "No"));

@@ -215,3 +215,22 @@
 .error-label {
     -fx-text-fill: #c0392b;
 }
+
+.estado-pendiente, .estado-verde, .estado-naranja, .estado-rojo,
+.estado-amarillo, .estado-cancelada, .sancion-suspension_temporal,
+.sancion-tarjeta_amarilla_agresion, .sancion-otra {
+    -fx-padding: 3 9 3 9;
+    -fx-background-radius: 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.estado-pendiente { -fx-background-color: #e9eef5; -fx-text-fill: #486581; }
+.estado-verde { -fx-background-color: #d9f2e6; -fx-text-fill: #147d55; }
+.estado-naranja { -fx-background-color: #fff0d6; -fx-text-fill: #b45309; }
+.estado-rojo { -fx-background-color: #fde0e0; -fx-text-fill: #b42318; }
+.estado-amarillo { -fx-background-color: #fff7bf; -fx-text-fill: #946200; }
+.estado-cancelada { -fx-background-color: #e4e7eb; -fx-text-fill: #616e7c; }
+.sancion-suspension_temporal { -fx-background-color: #fde0e0; -fx-text-fill: #b42318; }
+.sancion-tarjeta_amarilla_agresion { -fx-background-color: #fff7bf; -fx-text-fill: #946200; }
+.sancion-otra { -fx-background-color: #d9edf7; -fx-text-fill: #105b83; }

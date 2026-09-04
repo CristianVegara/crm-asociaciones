@@ -10,6 +10,11 @@
 > con consulta y gestión de planes, sesiones y sanciones mediante los endpoints REST existentes.
 > `GET /pacientes/{id}` devuelve además una colección de sesiones agregada (y las sesiones
 > siguen anidadas en cada plan para conservar su contexto).
+>
+> **Revisión 5 (04/09/2026)**: se fijan las decisiones funcionales del apartado 12:
+> las faltas justificadas se marcan como AMARILLO sin reprogramación, las sanciones solo se
+> registran en este sistema, se soportan inicialmente hasta 5 puestos concurrentes y la
+> gestión de asociaciones y catálogo depende del permiso asignado por el Director.
 
 ## 1. Qué era el prototipo original
 
@@ -233,11 +238,16 @@ Esto implica en el backend, además de `POST /planes-servicio`:
 El propio Cristian señala que el detalle fino de este comportamiento (cómo se regeneran sesiones al editar, si el borrado es lógico o físico, etc.) se irá afinando con las versiones — no se cierra aquí, solo se deja constancia de la necesidad.
 
 Decisión aplicada: un plan cancelado conserva sesiones e histórico, y no puede editarse ni reactivarse.
+Al editar un plan se regeneran las sesiones futuras PENDIENTES según la nueva frecuencia y
+fechas; las sesiones ya registradas se conservan. El borrado de una sesión es lógico:
+pasa a `CANCELADA`. Al cancelar un plan se cancelan sus sesiones futuras pendientes.
 
-## 12. Pendiente de decidir más adelante
+## 12. Decisiones confirmadas
 
-- Qué ocurre con las `SesionProgramada` cuando un paciente falta justificadamente de forma puntual: ¿se reprograma la sesión o simplemente queda marcada como NARANJA sin reposición?
-- Qué pasa exactamente "después" de aplicar una sanción — el propio Cristian indica que se gestiona con otra herramienta/proceso; queda fuera de alcance de este sistema por ahora.
-- Número final de puestos concurrentes en la oficina.
-- Si Asociaciones y el catálogo de servicios deben ser editables por más roles que el director, o quedan centralizados en un permiso único de gestión.
-- Detalle exacto de edición/borrado de planes y sesiones (ver apartado 11) — a definir en versiones posteriores.
+- Una falta justificada se marca como `AMARILLO` y no genera reprogramación.
+- La aplicación solo registra la sanción; la ejecución posterior queda fuera de alcance.
+- El despliegue inicial debe soportar hasta 5 puestos concurrentes.
+- Asociaciones y catálogo de servicios pueden gestionarse desde cualquier rol con el permiso asignado por el Director.
+- Al editar un plan se regeneran las sesiones futuras pendientes y se conserva el histórico.
+- El borrado de una sesión es lógico: pasa a `CANCELADA`.
+- Al cancelar un plan se conserva el histórico y se cancelan sus sesiones futuras pendientes.

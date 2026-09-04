@@ -251,3 +251,9 @@ pasa a `CANCELADA`. Al cancelar un plan se cancelan sus sesiones futuras pendien
 - Al editar un plan se regeneran las sesiones futuras pendientes y se conserva el histórico.
 - El borrado de una sesión es lógico: pasa a `CANCELADA`.
 - Al cancelar un plan se conserva el histórico y se cancelan sus sesiones futuras pendientes.
+
+## 13. Catálogo inicial de servicios
+
+El sistema inicializa de forma idempotente estos tipos de servicio, manteniendo su gestión
+posterior desde el CRM: Ambulancia, Psicología, Rehabilitación, Transporte, Ayuda a domicilio
+y Trabajo social. Cada tipo incluye un icono y un color visual propios.

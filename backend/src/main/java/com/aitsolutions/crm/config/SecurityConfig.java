@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.aitsolutions.crm.auditoria.AuditoriaFiltro;
 
 /**
  * Autenticacion 100% via JWT (ver auth/JwtAuthenticationFilter): no usamos el
@@ -26,11 +27,14 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final AuditoriaFiltro auditoriaFiltro;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                           AuditoriaFiltro auditoriaFiltro) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.auditoriaFiltro = auditoriaFiltro;
     }
 
     @Bean
@@ -44,6 +48,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(auditoriaFiltro, JwtAuthenticationFilter.class);
 
         return http.build();
     }

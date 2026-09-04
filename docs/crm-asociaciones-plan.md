@@ -28,6 +28,30 @@
 > **Revisión 9 (04/09/2026)**: se traducen los días de la ficha del paciente, se ajusta el
 > espaciado general de la interfaz y se aclara que el catálogo administra servicios; la
 > asignación de servicios a pacientes se realiza desde Planes.
+>
+> **Revisión 10 (04/09/2026)**: se incorpora auditoría técnica de accesos y operaciones HTTP,
+> consultable únicamente con `GESTIONAR_TRABAJADORES`; no se almacenan credenciales ni tokens.
+>
+> **Revisión 11 (04/09/2026)**: se añade la pantalla JavaFX de auditoría con filtrado por
+> usuario, método y ruta.
+>
+> **Revisión 12 (04/09/2026)**: la auditoría incorpora eventos de negocio para altas,
+> ediciones, cambios de estado y cancelaciones de pacientes, planes, sesiones y sanciones.
+>
+> **Revisión 13 (04/09/2026)**: se incorpora el módulo independiente de asociaciones con
+> listado, alta y edición, protegido por `GESTIONAR_PACIENTES`.
+>
+> **Revisión 14 (04/09/2026)**: el módulo de Auditoría queda desactivado temporalmente y
+> su pestaña se oculta en el cliente, conservando el backend y el histórico.
+>
+> **Revisión 15 (04/09/2026)**: se completa la operativa de mantenimiento desde el cliente:
+> edición de pacientes conservando el expediente, búsqueda de asociaciones por varios campos,
+> edición de tipos y subservicios del catálogo, y mejora visual de estados y selección en
+> trabajadores. La auditoría continúa oculta y las copias de seguridad siguen fuera del alcance.
+>
+> **Revisión 16 (04/09/2026)**: la Agenda incorpora vistas diaria, semanal y mensual, acceso
+> directo a la ficha del paciente desde cada sesión y visualización del subservicio.
+> El Catálogo muestra estados activos/inactivos y bloquea altas o ediciones incompatibles.
 
 ## 1. Qué era el prototipo original
 
@@ -46,14 +70,13 @@ OFICINA DE LA ASOCIACIÓN
                     ▼
         SERVIDOR FÍSICO (en la propia oficina)
         ├── Backend API — Spring Boot
-        ├── Base de datos — PostgreSQL/MySQL
-        └── Backups locales
+        └── Base de datos — PostgreSQL/MySQL
 ```
 
 - **Cliente**: nativo en **Java (JavaFX)**, sin motor de navegador ni Tailwind. Refuerza el perfil de Java backend usado en la búsqueda de empleo.
 - **Backend**: **Spring Boot** (Spring Data JPA, Spring Security + JWT).
 - **Servidor**: físico, en la propia oficina de la asociación (no en la Raspberry Pi personal ni en la nube) — datos sensibles (salud, discapacidad) sujetos a RGPD.
-- **Backups**: automáticos (`pg_dump` + cron) en disco externo o NAS.
+- **Copias de seguridad**: fuera del alcance del CRM; las gestionará un proveedor externo.
 
 ## 3. UX tipo CRM, no wizard
 
@@ -277,3 +300,27 @@ Además del alta contextual desde la ficha del paciente, el cliente JavaFX inclu
 un módulo global de **Planes**. Permite listar y filtrar planes por paciente,
 servicio y estado, crear un plan seleccionando el paciente y cancelar planes
 manteniendo el histórico. El acceso requiere `CREAR_PLAN_SERVICIO`.
+
+## 15. Estado actual y siguientes mejoras
+
+### Implementado recientemente
+
+- **Pacientes**: edición desde el listado mediante `PUT /pacientes/{id}`, conservando el expediente.
+- **Asociaciones**: búsqueda dinámica por nombre, dirección o contacto, además de alta y edición.
+- **Catálogo**: edición de tipos de servicio y subservicios mediante los endpoints existentes.
+- **Trabajadores**: botón de estado condicionado a la selección y estados con estilo corporativo.
+- **Agenda**: vistas diaria, semanal y mensual, columna de subservicio y acceso directo a la
+  ficha del paciente desde el menú contextual de cada sesión.
+- **Catálogo**: estados activo/inactivo visibles y acciones condicionadas a dichos estados.
+- **Auditoría**: pestaña oculta por decisión funcional; backend e histórico conservados.
+
+### Pendiente, en orden recomendado
+
+1. Ampliar asociaciones con datos fiscales, contactos, estadísticas y relación de pacientes.
+2. Añadir vistas y filtros avanzados a la Agenda cuando el contrato REST exponga esos datos.
+3. Añadir activación/desactivación, iconos/colores y prevención de duplicados en el Catálogo.
+4. Continuar con RGPD: consentimiento, retención/anonimización, exportaciones, HTTPS y secretos.
+5. Reactivar Auditoría únicamente cuando se solicite.
+6. Validar manualmente el DMG y el arranque automático en el entorno real.
+
+Las copias de seguridad quedan fuera del alcance y serán gestionadas por un proveedor externo.

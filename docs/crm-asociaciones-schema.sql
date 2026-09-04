@@ -68,6 +68,21 @@ CREATE TABLE IF NOT EXISTS informe_generado (
     INDEX idx_informe_generado_fecha (fecha_generacion)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS auditoria_evento (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    fecha DATETIME(6) NOT NULL,
+    usuario VARCHAR(100) NOT NULL,
+    metodo VARCHAR(10) NOT NULL,
+    ruta VARCHAR(255) NOT NULL,
+    estado_http INT NOT NULL,
+    direccion_ip VARCHAR(45) NULL,
+    accion VARCHAR(80) NULL,
+    detalle VARCHAR(500) NULL,
+    CONSTRAINT pk_auditoria_evento PRIMARY KEY (id),
+    INDEX idx_auditoria_fecha (fecha),
+    INDEX idx_auditoria_usuario (usuario)
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS rol_permiso (
     rol_id BIGINT NOT NULL,
     permiso VARCHAR(255) NOT NULL,

@@ -29,10 +29,12 @@
                 </HBox.margin>
             </Label>
             <Button fx:id="botonDashboard" text="Dashboard" styleClass="nav-button" onAction="#onDashboardClick"/>
+            <Button fx:id="botonAsociaciones" text="Asociaciones" styleClass="nav-button" onAction="#onAsociacionesClick"/>
             <Button fx:id="botonPacientes" text="Pacientes" styleClass="nav-button" onAction="#onPacientesClick"/>
             <Button fx:id="botonPlanes" text="Planes" styleClass="nav-button" onAction="#onPlanesClick"/>
             <Button fx:id="botonAgenda" text="Agenda" styleClass="nav-button" onAction="#onAgendaClick"/>
             <Button fx:id="botonCatalogo" text="Catálogo" styleClass="nav-button" onAction="#onCatalogoClick"/>
+            <Button fx:id="botonAuditoria" text="Auditoría" styleClass="nav-button" onAction="#onAuditoriaClick"/>
             <Button fx:id="botonSanciones" text="Sanciones" styleClass="nav-button" onAction="#onSancionesClick"/>
             <Button fx:id="botonTrabajadores" text="Trabajadores y roles" styleClass="nav-button" onAction="#onTrabajadoresClick"/>
             <Button fx:id="botonInformes" text="Informes" styleClass="nav-button" onAction="#onInformesClick"/>

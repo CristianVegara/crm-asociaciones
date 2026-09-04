@@ -41,7 +41,8 @@
                     </TableView>
 
                     <HBox spacing="8.0" alignment="CENTER_LEFT">
-                        <Button text="Activar / desactivar seleccionado" onAction="#onCambiarEstadoTrabajadorClick"/>
+                        <Button fx:id="botonEstadoTrabajador" text="Activar / desactivar seleccionado"
+                                onAction="#onCambiarEstadoTrabajadorClick"/>
                         <Label text="No se borran trabajadores para no perder el historial de quién hizo qué; se dan de baja." styleClass="status-label"/>
                     </HBox>
 

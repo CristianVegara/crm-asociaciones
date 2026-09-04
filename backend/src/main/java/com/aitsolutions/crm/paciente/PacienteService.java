@@ -1,5 +1,6 @@
 package com.aitsolutions.crm.paciente;
 
+import com.aitsolutions.crm.auditoria.AuditoriaService;
 import com.aitsolutions.crm.asociacion.Asociacion;
 import com.aitsolutions.crm.asociacion.AsociacionService;
 import com.aitsolutions.crm.common.ResourceNotFoundException;
@@ -20,10 +21,13 @@ public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
     private final AsociacionService asociacionService;
+    private final AuditoriaService auditoriaService;
 
-    public PacienteService(PacienteRepository pacienteRepository, AsociacionService asociacionService) {
+    public PacienteService(PacienteRepository pacienteRepository, AsociacionService asociacionService,
+                           AuditoriaService auditoriaService) {
         this.pacienteRepository = pacienteRepository;
         this.asociacionService = asociacionService;
+        this.auditoriaService = auditoriaService;
     }
 
     public Page<Paciente> buscar(Long asociacionId, String nombre, Pageable pageable) {
@@ -52,7 +56,9 @@ public class PacienteService {
         paciente.setDni(request.getDni());
         paciente.setTelefono(request.getTelefono());
         paciente.setEmail(request.getEmail());
-        return pacienteRepository.save(paciente);
+        Paciente guardado = pacienteRepository.save(paciente);
+        auditoriaService.registrar("PACIENTE_ALTA", "Paciente " + guardado.getId());
+        return guardado;
     }
 
     private String siguienteNumeroExpediente() {
@@ -102,12 +108,16 @@ public class PacienteService {
         paciente.setEmail(request.getEmail());
         paciente.setAsociacion(asociacion);
 
-        return pacienteRepository.save(paciente);
+        Paciente guardado = pacienteRepository.save(paciente);
+        auditoriaService.registrar("PACIENTE_EDICION", "Paciente " + guardado.getId());
+        return guardado;
     }
 
     public Paciente cambiarEstado(Long id, boolean activo) {
         Paciente paciente = buscarPorId(id);
         paciente.setActivo(activo);
-        return pacienteRepository.save(paciente);
+        Paciente guardado = pacienteRepository.save(paciente);
+        auditoriaService.registrar("PACIENTE_ESTADO", "Paciente " + guardado.getId() + ": activo=" + activo);
+        return guardado;
     }
 }

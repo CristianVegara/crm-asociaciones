@@ -1,5 +1,6 @@
 package com.aitsolutions.crm.planservicio;
 
+import com.aitsolutions.crm.auditoria.AuditoriaService;
 import com.aitsolutions.crm.auth.UsuarioAutenticadoService;
 import com.aitsolutions.crm.common.ResourceNotFoundException;
 import com.aitsolutions.crm.paciente.Paciente;
@@ -29,19 +30,22 @@ public class PlanServicioService {
     private final TipoServicioService tipoServicioService;
     private final UsuarioAutenticadoService usuarioAutenticadoService;
     private final AutorizacionServicioService autorizacionServicioService;
+    private final AuditoriaService auditoriaService;
 
     public PlanServicioService(PlanServicioRepository planServicioRepository,
                                 SesionProgramadaRepository sesionProgramadaRepository,
                                 PacienteService pacienteService,
                                 TipoServicioService tipoServicioService,
                                 UsuarioAutenticadoService usuarioAutenticadoService,
-                                AutorizacionServicioService autorizacionServicioService) {
+                                AutorizacionServicioService autorizacionServicioService,
+                                AuditoriaService auditoriaService) {
         this.planServicioRepository = planServicioRepository;
         this.sesionProgramadaRepository = sesionProgramadaRepository;
         this.pacienteService = pacienteService;
         this.tipoServicioService = tipoServicioService;
         this.usuarioAutenticadoService = usuarioAutenticadoService;
         this.autorizacionServicioService = autorizacionServicioService;
+        this.auditoriaService = auditoriaService;
     }
 
     public List<PlanServicio> buscar(Long pacienteId, Long tipoServicioId, EstadoPlanServicio estado) {
@@ -76,6 +80,7 @@ public class PlanServicioService {
         plan = planServicioRepository.save(plan);
 
         generarCalendarioCompleto(plan);
+        auditoriaService.registrar("PLAN_ALTA", "Plan " + plan.getId() + ", paciente " + paciente.getId());
         return plan;
     }
 
@@ -97,6 +102,7 @@ public class PlanServicioService {
         plan = planServicioRepository.save(plan);
 
         regenerarSesionesFuturas(plan);
+        auditoriaService.registrar("PLAN_EDICION", "Plan " + plan.getId());
         return plan;
     }
 
@@ -120,6 +126,7 @@ public class PlanServicioService {
         } else if (nuevoEstado == EstadoPlanServicio.CANCELADO) {
             cancelarSesionesFuturasPendientes(plan);
         }
+        auditoriaService.registrar("PLAN_ESTADO", "Plan " + plan.getId() + ": " + nuevoEstado);
         return plan;
     }
 

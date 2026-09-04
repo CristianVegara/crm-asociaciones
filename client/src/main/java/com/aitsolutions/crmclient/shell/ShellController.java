@@ -25,7 +25,11 @@ public class ShellController {
     @FXML
     private Button botonDashboard;
     @FXML
+    private Button botonAsociaciones;
+    @FXML
     private Button botonCatalogo;
+    @FXML
+    private Button botonAuditoria;
 
     @FXML
     private Button botonSanciones;
@@ -53,6 +57,7 @@ public class ShellController {
         boolean vePlanes = sesion.tienePermiso("CREAR_PLAN_SERVICIO");
         boolean veAgenda = sesion.tienePermiso("REGISTRAR_ASISTENCIA");
         boolean veDashboard = sesion.tienePermiso("VER_INFORMES");
+        boolean veAsociaciones = sesion.tienePermiso("GESTIONAR_PACIENTES");
         boolean veCatalogo = sesion.tienePermiso("GESTIONAR_CATALOGO_SERVICIOS");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
         boolean veTrabajadores = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
@@ -62,7 +67,11 @@ public class ShellController {
         configurarVisibilidad(botonPlanes, vePlanes);
         configurarVisibilidad(botonAgenda, veAgenda);
         configurarVisibilidad(botonDashboard, veDashboard);
+        configurarVisibilidad(botonAsociaciones, veAsociaciones);
         configurarVisibilidad(botonCatalogo, veCatalogo);
+        // Auditoría desactivada temporalmente: se mantiene implementada en backend
+        // para poder reactivarla sin perder el histórico.
+        configurarVisibilidad(botonAuditoria, false);
         configurarVisibilidad(botonSanciones, veSanciones);
         configurarVisibilidad(botonTrabajadores, veTrabajadores);
         configurarVisibilidad(botonInformes, veInformes);
@@ -114,8 +123,18 @@ public class ShellController {
     }
 
     @FXML
+    private void onAsociacionesClick() {
+        cargarModulo("asociaciones-screen.fxml", botonAsociaciones);
+    }
+
+    @FXML
     private void onCatalogoClick() {
         cargarModulo("catalogo-screen.fxml", botonCatalogo);
+    }
+
+    @FXML
+    private void onAuditoriaClick() {
+        cargarModulo("auditoria-screen.fxml", botonAuditoria);
     }
 
     @FXML
@@ -162,7 +181,7 @@ public class ShellController {
     }
 
     private void marcarBotonActivo(Button botonActivo) {
-        for (Button boton : new Button[]{botonDashboard, botonPacientes, botonPlanes, botonAgenda, botonCatalogo, botonSanciones, botonTrabajadores, botonInformes}) {
+        for (Button boton : new Button[]{botonDashboard, botonAsociaciones, botonPacientes, botonPlanes, botonAgenda, botonCatalogo, botonAuditoria, botonSanciones, botonTrabajadores, botonInformes}) {
             boton.getStyleClass().remove(CLASE_BOTON_ACTIVO);
         }
         if (botonActivo != null) {

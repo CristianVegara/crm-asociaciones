@@ -16,9 +16,31 @@ public class CatalogoController {
     @FXML private ListView<SubServicioResponse> listaSubservicios;
     @FXML private TextField campoTipo, campoSubservicio;
     @FXML private Label etiquetaEstado;
+    @FXML private Button botonEditarTipo, botonCrearSubservicio, botonEditarSubservicio;
 
     @FXML private void initialize() {
         comboTipo.valueProperty().addListener((o, a, b) -> actualizarSubservicios());
+        listaSubservicios.getSelectionModel().selectedItemProperty()
+                .addListener((obs, anterior, actual) -> actualizarEstadoAcciones());
+        comboTipo.setCellFactory(combo -> new ListCell<>() {
+            @Override protected void updateItem(TipoServicioResponse item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre() + (item.isActivo() ? "" : " (inactivo)"));
+            }
+        });
+        comboTipo.setButtonCell(new ListCell<>() {
+            @Override protected void updateItem(TipoServicioResponse item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre() + (item.isActivo() ? "" : " (inactivo)"));
+            }
+        });
+        listaSubservicios.setCellFactory(lista -> new ListCell<>() {
+            @Override protected void updateItem(SubServicioResponse item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre() + (item.isActivo() ? "" : " (inactivo)"));
+            }
+        });
+        actualizarEstadoAcciones();
         cargarTipos();
     }
 
@@ -31,12 +53,54 @@ public class CatalogoController {
 
     @FXML private void onCrearSubservicioClick() {
         TipoServicioResponse tipo = comboTipo.getValue();
-        if (tipo == null || campoSubservicio.getText().isBlank()) {
-            etiquetaEstado.setText("Selecciona un servicio e indica el subservicio"); return;
+        if (tipo == null || !tipo.isActivo() || campoSubservicio.getText().isBlank()) {
+            if (tipo != null && !tipo.isActivo()) etiquetaEstado.setText("El servicio está inactivo");
+            else etiquetaEstado.setText("Selecciona un servicio e indica el subservicio");
+            return;
         }
+
         ejecutar(() -> ApiClient.getInstance().post("/tipos-servicio/" + tipo.getId() + "/subservicios",
                 new SubServicioRequest(campoSubservicio.getText().trim()), TipoServicioResponse.class, true),
                 r -> { campoSubservicio.clear(); etiquetaEstado.setText("Subservicio creado"); cargarTipos(); });
+    }
+
+    @FXML private void onEditarTipoClick() {
+        TipoServicioResponse tipo = comboTipo.getValue();
+        if (tipo == null) {
+            etiquetaEstado.setText("Selecciona un tipo de servicio");
+            return;
+        }
+        TextInputDialog dialogo = new TextInputDialog(tipo.getNombre());
+        dialogo.setTitle("Editar tipo de servicio");
+        dialogo.setHeaderText("Renombrar servicio");
+        dialogo.setContentText("Nombre:");
+        dialogo.showAndWait().map(String::trim).filter(nombre -> !nombre.isBlank())
+                .ifPresent(nombre -> ejecutar(() -> ApiClient.getInstance().put(
+                        "/tipos-servicio/" + tipo.getId(), new TipoServicioRequest(nombre),
+                        TipoServicioResponse.class), respuesta -> {
+                    etiquetaEstado.setText("Servicio actualizado");
+                    cargarTipos();
+                }));
+    }
+
+    @FXML private void onEditarSubservicioClick() {
+        SubServicioResponse subservicio = listaSubservicios.getSelectionModel().getSelectedItem();
+        TipoServicioResponse tipo = comboTipo.getValue();
+        if (tipo == null || subservicio == null) {
+            etiquetaEstado.setText("Selecciona un subservicio");
+            return;
+        }
+        TextInputDialog dialogo = new TextInputDialog(subservicio.getNombre());
+        dialogo.setTitle("Editar subservicio");
+        dialogo.setHeaderText("Renombrar subservicio");
+        dialogo.setContentText("Nombre:");
+        dialogo.showAndWait().map(String::trim).filter(nombre -> !nombre.isBlank())
+                .ifPresent(nombre -> ejecutar(() -> ApiClient.getInstance().put(
+                        "/subservicios/" + subservicio.getId(), new SubServicioRequest(nombre),
+                        SubServicioResponse.class), respuesta -> {
+                    etiquetaEstado.setText("Subservicio actualizado");
+                    cargarTipos();
+                }));
     }
 
     private void cargarTipos() {
@@ -56,6 +120,16 @@ public class CatalogoController {
         TipoServicioResponse tipo = comboTipo.getValue();
         listaSubservicios.setItems(FXCollections.observableArrayList(
                 tipo == null ? List.of() : tipo.getSubServicios()));
+        actualizarEstadoAcciones();
+    }
+
+    private void actualizarEstadoAcciones() {
+        TipoServicioResponse tipo = comboTipo.getValue();
+        boolean tipoActivo = tipo != null && tipo.isActivo();
+        botonEditarTipo.setDisable(tipo == null);
+        botonCrearSubservicio.setDisable(!tipoActivo);
+        SubServicioResponse subservicio = listaSubservicios.getSelectionModel().getSelectedItem();
+        botonEditarSubservicio.setDisable(subservicio == null || !subservicio.isActivo());
     }
 
     private <T> void ejecutar(java.util.concurrent.Callable<T> llamada, java.util.function.Consumer<T> exito) {

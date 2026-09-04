@@ -66,13 +66,19 @@ public class PacienteListadoController {
 
     @FXML
     private Button botonFicha;
+    @FXML
+    private Button botonEditar;
 
     @FXML
     private void initialize() {
         configurarColumnas();
         botonFicha.setDisable(true);
+        botonEditar.setDisable(true);
         tablaPacientes.getSelectionModel().selectedItemProperty()
-                .addListener((obs, anterior, nuevo) -> botonFicha.setDisable(nuevo == null));
+                .addListener((obs, anterior, nuevo) -> {
+                    botonFicha.setDisable(nuevo == null);
+                    botonEditar.setDisable(nuevo == null);
+                });
         cargarPacientes(null);
     }
 
@@ -165,9 +171,79 @@ public class PacienteListadoController {
             etiquetaEstado.setText("Selecciona un paciente");
             return;
         }
+
         Window ventana = tablaPacientes.getScene() == null ? null : tablaPacientes.getScene().getWindow();
         PacienteFichaDialog.mostrar(paciente.getId(),
                 paciente.getNombre() + " " + paciente.getApellidos(), ventana);
+    }
+
+    @FXML
+    private void onEditarClick() {
+            PacienteResponse paciente = tablaPacientes.getSelectionModel().getSelectedItem();
+            if (paciente == null) {
+                etiquetaEstado.setText("Selecciona un paciente");
+                return;
+            }
+
+            Dialog<PacienteRequest> dialogo = new Dialog<>();
+            dialogo.setTitle("Editar paciente");
+            dialogo.setHeaderText(paciente.getNombre() + " " + paciente.getApellidos());
+            ButtonType guardar = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
+            dialogo.getDialogPane().getButtonTypes().addAll(guardar, ButtonType.CANCEL);
+
+            TextField nombre = new TextField(paciente.getNombre());
+            TextField apellidos = new TextField(paciente.getApellidos());
+            TextField dni = new TextField(valor(paciente.getDni()));
+            TextField telefono = new TextField(valor(paciente.getTelefono()));
+            TextField email = new TextField(valor(paciente.getEmail()));
+            DatePicker nacimiento = new DatePicker(paciente.getFechaNacimiento() == null
+                    ? null : java.time.LocalDate.parse(paciente.getFechaNacimiento()));
+            ComboBox<String> genero = new ComboBox<>(FXCollections.observableArrayList(
+                    "Femenino", "Masculino", "No especificado"));
+            genero.setValue(paciente.getGenero());
+            ComboBox<AsociacionResponse> asociacion = new ComboBox<>();
+            GridPane formulario = new GridPane();
+            formulario.setHgap(8); formulario.setVgap(8); formulario.setPadding(new Insets(10));
+            formulario.addRow(0, new Label("Nombre *"), nombre, new Label("Apellidos *"), apellidos);
+            formulario.addRow(1, new Label("DNI"), dni);
+            formulario.addRow(2, new Label("Teléfono"), telefono, new Label("Email"), email);
+            formulario.addRow(3, new Label("Nacimiento"), nacimiento, new Label("Género"), genero);
+            formulario.addRow(4, new Label("Asociación *"), asociacion);
+            dialogo.getDialogPane().setContent(formulario);
+            dialogo.getDialogPane().lookupButton(guardar).setDisable(true);
+            cargarAsociaciones(asociacion, () -> {
+                asociacion.getItems().stream()
+                        .filter(a -> a.getId().equals(paciente.getAsociacionId()))
+                        .findFirst().ifPresent(asociacion.getSelectionModel()::select);
+                dialogo.getDialogPane().lookupButton(guardar).setDisable(false);
+            });
+            dialogo.setResultConverter(boton -> boton == guardar && !nombre.getText().isBlank()
+                    && !apellidos.getText().isBlank() && asociacion.getValue() != null
+                    ? new PacienteRequest(nombre.getText().trim(), apellidos.getText().trim(),
+                    paciente.getNumeroExpediente(),
+                    nacimiento.getValue() == null ? null : nacimiento.getValue().toString(),
+                    genero.getValue(), dni.getText().trim(), telefono.getText().trim(),
+                    email.getText().trim(), asociacion.getValue().getId()) : null);
+            dialogo.showAndWait().ifPresent(request -> actualizarPaciente(paciente.getId(), request));
+    }
+
+    private void actualizarPaciente(Long id, PacienteRequest request) {
+            Task<PacienteResponse> tarea = new Task<>() {
+                @Override protected PacienteResponse call() {
+                    return ApiClient.getInstance().put("/pacientes/" + id, request, PacienteResponse.class);
+                }
+            };
+            tarea.setOnSucceeded(e -> {
+                cargarPacientes(null);
+                etiquetaEstado.setText("Paciente actualizado");
+            });
+            tarea.setOnFailed(e -> etiquetaEstado.setText(tarea.getException() instanceof ApiException a
+                    ? a.getMessage() : "No se pudo actualizar el paciente"));
+            new Thread(tarea, "crm-paciente-edicion").start();
+    }
+
+    private static String valor(String texto) {
+        return texto == null ? "" : texto;
     }
 
     private void registrarPaciente(PacienteRequest request) {

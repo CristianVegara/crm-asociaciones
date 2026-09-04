@@ -15,6 +15,9 @@
 > las faltas justificadas se marcan como AMARILLO sin reprogramación, las sanciones solo se
 > registran en este sistema, se soportan inicialmente hasta 5 puestos concurrentes y la
 > gestión de asociaciones y catálogo depende del permiso asignado por el Director.
+>
+> **Revisión 6 (04/09/2026)**: se implementa el módulo JavaFX de Agenda, con consulta por
+> rango de fechas y estado, marcado de asistencia y visualización semafórica.
 
 ## 1. Qué era el prototipo original
 

@@ -20,6 +20,8 @@ public class ShellController {
     private Button botonPacientes;
     @FXML
     private Button botonPlanes;
+    @FXML
+    private Button botonAgenda;
 
     @FXML
     private Button botonSanciones;
@@ -45,12 +47,14 @@ public class ShellController {
 
         boolean vePacientes = sesion.tienePermiso("GESTIONAR_PACIENTES");
         boolean vePlanes = sesion.tienePermiso("CREAR_PLAN_SERVICIO");
+        boolean veAgenda = sesion.tienePermiso("REGISTRAR_ASISTENCIA");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
         boolean veTrabajadores = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veInformes = sesion.tienePermiso("VER_INFORMES");
 
         configurarVisibilidad(botonPacientes, vePacientes);
         configurarVisibilidad(botonPlanes, vePlanes);
+        configurarVisibilidad(botonAgenda, veAgenda);
         configurarVisibilidad(botonSanciones, veSanciones);
         configurarVisibilidad(botonTrabajadores, veTrabajadores);
         configurarVisibilidad(botonInformes, veInformes);
@@ -60,6 +64,8 @@ public class ShellController {
             cargarModulo("paciente-listado.fxml", botonPacientes);
         } else if (vePlanes) {
             cargarModulo("plan-servicio-screen.fxml", botonPlanes);
+        } else if (veAgenda) {
+            cargarModulo("agenda-screen.fxml", botonAgenda);
         } else if (veSanciones) {
             cargarModulo("sancion-screen.fxml", botonSanciones);
         } else if (veTrabajadores) {
@@ -85,6 +91,11 @@ public class ShellController {
     @FXML
     private void onPlanesClick() {
         cargarModulo("plan-servicio-screen.fxml", botonPlanes);
+    }
+
+    @FXML
+    private void onAgendaClick() {
+        cargarModulo("agenda-screen.fxml", botonAgenda);
     }
 
     @FXML
@@ -131,7 +142,7 @@ public class ShellController {
     }
 
     private void marcarBotonActivo(Button botonActivo) {
-        for (Button boton : new Button[]{botonPacientes, botonPlanes, botonSanciones, botonTrabajadores, botonInformes}) {
+        for (Button boton : new Button[]{botonPacientes, botonPlanes, botonAgenda, botonSanciones, botonTrabajadores, botonInformes}) {
             boton.getStyleClass().remove(CLASE_BOTON_ACTIVO);
         }
         if (botonActivo != null) {

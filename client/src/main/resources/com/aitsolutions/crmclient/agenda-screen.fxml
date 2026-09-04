@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.aitsolutions.crmclient.agenda.AgendaScreenController">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="screen-header">
+            <Label text="Agenda de sesiones" styleClass="screen-title"/>
+            <Label text="Desde"/>
+            <DatePicker fx:id="campoDesde"/>
+            <Label text="Hasta"/>
+            <DatePicker fx:id="campoHasta"/>
+            <ComboBox fx:id="comboEstado" promptText="Estado"/>
+            <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
+            <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaSesiones">
+            <columns>
+                <TableColumn fx:id="columnaFecha" text="Fecha" prefWidth="120"/>
+                <TableColumn fx:id="columnaPaciente" text="Paciente" prefWidth="220"/>
+                <TableColumn fx:id="columnaServicio" text="Servicio" prefWidth="180"/>
+                <TableColumn fx:id="columnaEstado" text="Estado" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

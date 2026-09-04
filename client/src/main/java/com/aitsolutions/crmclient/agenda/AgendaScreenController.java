@@ -17,6 +17,7 @@ public class AgendaScreenController {
     @FXML private DatePicker campoDesde;
     @FXML private DatePicker campoHasta;
     @FXML private ComboBox<String> comboEstado;
+    @FXML private ComboBox<String> comboVista;
     @FXML private TableView<SesionAgendaResponse> tablaSesiones;
     @FXML private TableColumn<SesionAgendaResponse, String> columnaFecha;
     @FXML private TableColumn<SesionAgendaResponse, String> columnaPaciente;
@@ -28,6 +29,9 @@ public class AgendaScreenController {
     private void initialize() {
         campoDesde.setValue(LocalDate.now());
         campoHasta.setValue(LocalDate.now().plusDays(7));
+        comboVista.setItems(FXCollections.observableArrayList("Diaria", "Semanal", "Mensual"));
+        comboVista.setValue("Semanal");
+        comboVista.valueProperty().addListener((obs, anterior, actual) -> ajustarRango(actual));
         comboEstado.setItems(FXCollections.observableArrayList(
                 "Todos", "PENDIENTE", "VERDE", "NARANJA", "ROJO", "AMARILLO", "CANCELADA"));
         comboEstado.setValue("Todos");
@@ -61,6 +65,17 @@ public class AgendaScreenController {
     }
 
     @FXML private void onBuscarClick() { cargarSesiones(); }
+
+    private void ajustarRango(String vista) {
+        LocalDate inicio = campoDesde.getValue() == null ? LocalDate.now() : campoDesde.getValue();
+        if ("Diaria".equals(vista)) {
+            campoHasta.setValue(inicio);
+        } else if ("Mensual".equals(vista)) {
+            campoHasta.setValue(inicio.plusMonths(1).minusDays(1));
+        } else {
+            campoHasta.setValue(inicio.plusDays(6));
+        }
+    }
 
     private void cargarSesiones() {
         if (campoDesde.getValue() != null && campoHasta.getValue() != null

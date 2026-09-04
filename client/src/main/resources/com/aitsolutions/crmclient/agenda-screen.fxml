@@ -10,6 +10,7 @@
             <DatePicker fx:id="campoDesde"/>
             <Label text="Hasta"/>
             <DatePicker fx:id="campoHasta"/>
+            <ComboBox fx:id="comboVista" promptText="Vista"/>
             <ComboBox fx:id="comboEstado" promptText="Estado"/>
             <Button text="Buscar" onAction="#onBuscarClick" styleClass="button-primary"/>
             <Label fx:id="etiquetaEstado" styleClass="status-label" HBox.hgrow="ALWAYS"/>

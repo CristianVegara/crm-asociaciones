@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.aitsolutions.crmclient.asociacion.AsociacionController"
+      spacing="12" styleClass="content-area">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Asociaciones" styleClass="screen-title"/>
+        <Button text="Nueva" onAction="#onNuevaClick" styleClass="button-primary"/>
+        <Button text="Editar seleccionada" onAction="#onEditarClick"/>
+        <Button text="Actualizar" onAction="#onActualizarClick"/>
+        <Label fx:id="etiquetaEstado" styleClass="status-label"/>
+    </HBox>
+    <TableView fx:id="tabla" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="columnaNombre" text="Nombre" prefWidth="280"/>
+            <TableColumn fx:id="columnaDireccion" text="Dirección" prefWidth="300"/>
+            <TableColumn fx:id="columnaContacto" text="Contacto" prefWidth="260"/>
+        </columns>
+    </TableView>
+</VBox>

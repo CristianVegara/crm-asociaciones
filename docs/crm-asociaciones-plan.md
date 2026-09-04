@@ -37,6 +37,9 @@
 >
 > **Revisión 12 (04/09/2026)**: la auditoría incorpora eventos de negocio para altas,
 > ediciones, cambios de estado y cancelaciones de pacientes, planes, sesiones y sanciones.
+>
+> **Revisión 13 (04/09/2026)**: se incorpora el módulo independiente de asociaciones con
+> listado, alta y edición, protegido por `GESTIONAR_PACIENTES`.
 
 ## 1. Qué era el prototipo original
 

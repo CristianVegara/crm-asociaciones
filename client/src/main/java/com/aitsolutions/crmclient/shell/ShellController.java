@@ -25,6 +25,8 @@ public class ShellController {
     @FXML
     private Button botonDashboard;
     @FXML
+    private Button botonAsociaciones;
+    @FXML
     private Button botonCatalogo;
     @FXML
     private Button botonAuditoria;
@@ -55,6 +57,7 @@ public class ShellController {
         boolean vePlanes = sesion.tienePermiso("CREAR_PLAN_SERVICIO");
         boolean veAgenda = sesion.tienePermiso("REGISTRAR_ASISTENCIA");
         boolean veDashboard = sesion.tienePermiso("VER_INFORMES");
+        boolean veAsociaciones = sesion.tienePermiso("GESTIONAR_PACIENTES");
         boolean veCatalogo = sesion.tienePermiso("GESTIONAR_CATALOGO_SERVICIOS");
         boolean veAuditoria = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
@@ -65,6 +68,7 @@ public class ShellController {
         configurarVisibilidad(botonPlanes, vePlanes);
         configurarVisibilidad(botonAgenda, veAgenda);
         configurarVisibilidad(botonDashboard, veDashboard);
+        configurarVisibilidad(botonAsociaciones, veAsociaciones);
         configurarVisibilidad(botonCatalogo, veCatalogo);
         configurarVisibilidad(botonAuditoria, veAuditoria);
         configurarVisibilidad(botonSanciones, veSanciones);
@@ -117,6 +121,11 @@ public class ShellController {
     @FXML
     private void onDashboardClick() {
         cargarModulo("dashboard-screen.fxml", botonDashboard);
+    }
+
+    @FXML
+    private void onAsociacionesClick() {
+        cargarModulo("asociaciones-screen.fxml", botonAsociaciones);
     }
 
     @FXML
@@ -173,7 +182,7 @@ public class ShellController {
     }
 
     private void marcarBotonActivo(Button botonActivo) {
-        for (Button boton : new Button[]{botonDashboard, botonPacientes, botonPlanes, botonAgenda, botonCatalogo, botonAuditoria, botonSanciones, botonTrabajadores, botonInformes}) {
+        for (Button boton : new Button[]{botonDashboard, botonAsociaciones, botonPacientes, botonPlanes, botonAgenda, botonCatalogo, botonAuditoria, botonSanciones, botonTrabajadores, botonInformes}) {
             boton.getStyleClass().remove(CLASE_BOTON_ACTIVO);
         }
         if (botonActivo != null) {

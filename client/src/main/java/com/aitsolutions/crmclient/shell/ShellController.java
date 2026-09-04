@@ -22,6 +22,10 @@ public class ShellController {
     private Button botonPlanes;
     @FXML
     private Button botonAgenda;
+    @FXML
+    private Button botonDashboard;
+    @FXML
+    private Button botonCatalogo;
 
     @FXML
     private Button botonSanciones;
@@ -48,6 +52,8 @@ public class ShellController {
         boolean vePacientes = sesion.tienePermiso("GESTIONAR_PACIENTES");
         boolean vePlanes = sesion.tienePermiso("CREAR_PLAN_SERVICIO");
         boolean veAgenda = sesion.tienePermiso("REGISTRAR_ASISTENCIA");
+        boolean veDashboard = sesion.tienePermiso("VER_INFORMES");
+        boolean veCatalogo = sesion.tienePermiso("GESTIONAR_CATALOGO_SERVICIOS");
         boolean veSanciones = sesion.tienePermiso("APLICAR_SANCION");
         boolean veTrabajadores = sesion.tienePermiso("GESTIONAR_TRABAJADORES");
         boolean veInformes = sesion.tienePermiso("VER_INFORMES");
@@ -55,12 +61,16 @@ public class ShellController {
         configurarVisibilidad(botonPacientes, vePacientes);
         configurarVisibilidad(botonPlanes, vePlanes);
         configurarVisibilidad(botonAgenda, veAgenda);
+        configurarVisibilidad(botonDashboard, veDashboard);
+        configurarVisibilidad(botonCatalogo, veCatalogo);
         configurarVisibilidad(botonSanciones, veSanciones);
         configurarVisibilidad(botonTrabajadores, veTrabajadores);
         configurarVisibilidad(botonInformes, veInformes);
 
         // Aterriza en el primer modulo al que el trabajador tenga acceso.
-        if (vePacientes) {
+        if (veDashboard) {
+            cargarModulo("dashboard-screen.fxml", botonDashboard);
+        } else if (vePacientes) {
             cargarModulo("paciente-listado.fxml", botonPacientes);
         } else if (vePlanes) {
             cargarModulo("plan-servicio-screen.fxml", botonPlanes);
@@ -96,6 +106,16 @@ public class ShellController {
     @FXML
     private void onAgendaClick() {
         cargarModulo("agenda-screen.fxml", botonAgenda);
+    }
+
+    @FXML
+    private void onDashboardClick() {
+        cargarModulo("dashboard-screen.fxml", botonDashboard);
+    }
+
+    @FXML
+    private void onCatalogoClick() {
+        cargarModulo("catalogo-screen.fxml", botonCatalogo);
     }
 
     @FXML
@@ -142,7 +162,7 @@ public class ShellController {
     }
 
     private void marcarBotonActivo(Button botonActivo) {
-        for (Button boton : new Button[]{botonPacientes, botonPlanes, botonAgenda, botonSanciones, botonTrabajadores, botonInformes}) {
+        for (Button boton : new Button[]{botonDashboard, botonPacientes, botonPlanes, botonAgenda, botonCatalogo, botonSanciones, botonTrabajadores, botonInformes}) {
             boton.getStyleClass().remove(CLASE_BOTON_ACTIVO);
         }
         if (botonActivo != null) {

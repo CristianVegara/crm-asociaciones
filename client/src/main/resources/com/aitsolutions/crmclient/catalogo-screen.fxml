@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.aitsolutions.crmclient.catalogo.CatalogoController"
+      spacing="14" styleClass="content-area">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Catálogo de servicios" styleClass="screen-title"/>
+        <TextField fx:id="campoTipo" promptText="Nuevo tipo de servicio"/>
+        <Button text="Crear tipo" onAction="#onCrearTipoClick" styleClass="button-primary"/>
+        <Label fx:id="etiquetaEstado" styleClass="status-label"/>
+    </HBox>
+    <HBox spacing="18" VBox.vgrow="ALWAYS">
+        <VBox spacing="10" prefWidth="300" styleClass="card">
+            <Label text="Tipos de servicio" styleClass="card-title"/>
+            <ComboBox fx:id="comboTipo" promptText="Selecciona un tipo" maxWidth="Infinity"/>
+        </VBox>
+        <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+            <Label text="Subservicios" styleClass="card-title"/>
+            <ListView fx:id="listaSubservicios" VBox.vgrow="ALWAYS"/>
+            <HBox spacing="8">
+                <TextField fx:id="campoSubservicio" promptText="Nuevo subservicio" HBox.hgrow="ALWAYS"/>
+                <Button text="Añadir" onAction="#onCrearSubservicioClick" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

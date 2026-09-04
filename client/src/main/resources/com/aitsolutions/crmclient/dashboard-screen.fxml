@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.aitsolutions.crmclient.dashboard.DashboardController"
+      spacing="18" styleClass="content-area">
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Label text="Dashboard" styleClass="screen-title"/>
+        <Button text="Actualizar" onAction="#onActualizarClick" styleClass="button-primary"/>
+        <Label fx:id="etiquetaEstado" styleClass="status-label"/>
+    </HBox>
+    <TilePane hgap="14" vgap="14" prefColumns="3">
+        <VBox styleClass="card" prefWidth="210"><Label text="Pacientes activos" styleClass="card-title"/><Label fx:id="pacientesActivos" styleClass="kpi-value"/></VBox>
+        <VBox styleClass="card" prefWidth="210"><Label text="Sesiones del año" styleClass="card-title"/><Label fx:id="sesionesTotal" styleClass="kpi-value"/></VBox>
+        <VBox styleClass="card" prefWidth="210"><Label text="Asistencia" styleClass="card-title"/><Label fx:id="asistencia" styleClass="kpi-value"/></VBox>
+        <VBox styleClass="card" prefWidth="210"><Label text="Sanciones" styleClass="card-title"/><Label fx:id="sancionesTotal" styleClass="kpi-value"/></VBox>
+        <VBox styleClass="card" prefWidth="210"><Label text="Planes creados" styleClass="card-title"/><Label fx:id="planesCreados" styleClass="kpi-value"/></VBox>
+    </TilePane>
+</VBox>

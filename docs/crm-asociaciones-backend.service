@@ -1,0 +1,14 @@
+[Unit]
+Description=CRM Asociaciones Backend
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=crm
+WorkingDirectory=/opt/crm-asociaciones
+ExecStart=/usr/bin/java -jar /opt/crm-asociaciones/crm-asociaciones-backend.jar
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -18,6 +18,12 @@
 >
 > **Revisión 6 (04/09/2026)**: se implementa el módulo JavaFX de Agenda, con consulta por
 > rango de fechas y estado, marcado de asistencia y visualización semafórica.
+>
+> **Revisión 7 (04/09/2026)**: se prepara el rollout de oficina con empaquetado del backend,
+> servicio systemd opcional y checklist para el puesto piloto y hasta cinco clientes.
+>
+> **Revisión 8 (04/09/2026)**: se incorporan el Dashboard de KPIs y el módulo independiente
+> de catálogo de tipos y subservicios.
 
 ## 1. Qué era el prototipo original
 
